@@ -139,7 +139,7 @@
 % are correct.  Then run BibTeX once and LaTeX twice
 % more.
 % CHANGE NEXT LINE?
-\includeonly{front,introduction}
+%\includeonly{front,introduction}
 
 \begin{document}
 
@@ -155,6 +155,18 @@
 % CHANGE \include{...} COMMANDS BELOW?
 \include{introduction}
 
+% Dicuss the nature of physical systems
+\include{physicalsystems}
+
+% Describe PUFs at a general level
+\include{pufoverview}
+
+% Discuss the different PUF applications and how they relate to physical system design
+\include{applications}
+\include{ROK} % PUF ROK work
+\include{PEAR} % PEAR work
+\include{DOE} % DOE work
+
 % Summary and/or conclusions are optional but often used.
 % The summary and/or conclusions often are the last
 % major division(s) of the text.
@@ -167,7 +179,7 @@
 % subject matter and research dictate.
 % Reference: TM 32.
 % CHANGE NEXT LINE?
-\include{recommendations}
+%\include{recommendations}
 
 % Appendices are optional.
 % Appendices are not necessarily part of every thesis. Appendices are used
@@ -179,12 +191,12 @@
 % appendix.
 % CHANGE NEXT 7 LINES?
 \appendices
-\include{demo-citations}
-\include{demo-figures}
-\include{demo-mathematics}
-\include{demo-multicols}
-\include{demo-tables}
-\include{demo-text}
+%\include{demo-citations}
+%\include{demo-figures}
+%\include{demo-mathematics}
+%\include{demo-multicols}
+%\include{demo-tables}
+%\include{demo-text}
 
 % Bibliography is required if you consulted any outside references.
 % Reference: TM 32.
@@ -199,7 +211,7 @@
 % and required for doctoral dissertations.
 % Reference: TM 13.
 % CHANGE NEXT LINE?
-\include{vita}
+%\include{vita}
 
 \end{document}
 
