@@ -7,11 +7,39 @@ Before delving into the details of various applications, it is necessary to defi
 cryptographic primitives, as they form a foundation to build off. The following sections present a brief
 introduction to the necessary cryptographic primitives that will be used in the rest of the thesis.
 
-% Asymmetric key encryption
+% Encryption operations
 \section{Encryption}
+It is often necessary to scramble and protect data so that only certain parties, such as those who
+possess a key value, can de-scramble and read the protected data. This might be necessary when
+sending any sort of sensitive data, such as financial records or e-mail messages. Presumably, if a 
+person does not have the correct key value, he or she will not be able to scramble or unscramble
+the data properly.
 
+The act of scrambling the data is called \emph{encryption}. The corresponding act of descrambling
+encrypted data is callled \emph{decryption}.
+
+Encryption and decryption operations and relevant parameters are denoted using the following notation below.
+
+\begin{align}
+C  = E_K(M) \\
+M = D_K(C)
+\end{align}
+
+Above, C is the \emph{ciphertext}, or encrypted text.  
+M is the message or \emph{plaintext}. 
+K represents the \emph{key value}. 
+E represents the \emph{encryption algorithm}, of which there are several types. This algorithm takes plaintext as a parameter and returns ciphertext.
+D represents the \emph{decryption algorithm}, which takes ciphertext and return plaintext.
+
+A sender would use his plaintext message to generate the ciphertext and transmit it. The receiver would then process the received data using the decryption
+algorithm and then be able to successfully recover the plaintext message.
+
+% Symmetric key encryption
 \subsection{Symmetric Encryption}
+Symmetric encryption is a fairly intuitive method of using encryption. In this style of encryption,
+both the sender and receiver share the same key value, K.
 
+% Asymmetric key encryption
 \subsection{Asymmetric Encryption}
 
 % ZKPK
