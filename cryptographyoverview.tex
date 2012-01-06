@@ -3,8 +3,9 @@
 
 % Provide a brief overview
 \section{Overview}
-Before delving into the details of various applications, it is necessary to define and understand several
-cryptographic primitives, as they form a foundation to build off. The following sections present a brief
+Before delving into the details of various applications for secure physical system design,
+it is necessary to define and understand several different
+cryptographic primitives, as they form a foundation on which the applications build. The following sections present a brief
 introduction to the necessary cryptographic primitives that will be used in the rest of the thesis.
 
 % Encryption operations
@@ -21,15 +22,15 @@ encrypted data is callled \emph{decryption}.
 Encryption and decryption operations and relevant parameters are denoted using the following notation below.
 
 \begin{align}
-C  = E_K(M) \\
-M = D_K(C)
+C = E_{K_E}(M) \\
+M = D_{K_D}(C)
 \end{align}
 
 Above, C is the \emph{ciphertext}, or encrypted text.  
 M is the message or \emph{plaintext}. 
-K represents the \emph{key value}. 
 E represents the \emph{encryption algorithm}, of which there are several types. This algorithm takes plaintext as a parameter and returns ciphertext.
 D represents the \emph{decryption algorithm}, which takes ciphertext and return plaintext.
+K represents the \emph{key value}. $K_E$ is used with the encryption algorithm, while $K_D$ is used with the decryption algorithm.
 
 A sender would use his plaintext message to generate the ciphertext and transmit it. The receiver would then process the received data using the decryption
 algorithm and then be able to successfully recover the plaintext message.
@@ -37,10 +38,38 @@ algorithm and then be able to successfully recover the plaintext message.
 % Symmetric key encryption
 \subsection{Symmetric Encryption}
 Symmetric encryption is a fairly intuitive method of using encryption. In this style of encryption,
-both the sender and receiver share the same key value, K.
+both the sender and receiver share the same key value, K. In this scenario $K_E = K_D$. There are several,
+different symmetric encryption algorithms, such as AES~\cite{AES}, DES~\cite{DES}, Blowfish~\cite{Blowfish}, and many others.
+For my purposes, I typically use AES. It is fast and considered fairly secure~\cite{aessecurity}.
+
+One difficulty with symmetric encryption is the establishment of a shared symmetric keys between the two communicating parties.
+If there is a secure channel between the sender and recipient, it is trivial to simply send the value $K$ across the secure channel.
+If there is no secure channel however, there are protocols, such as the Diffie-Hellman Key Exchange~\cite{diffiehellmankeyexchange} algorithm.
+This is a somewhat cumbersome step to do for every communication. Additionally, a party must maintain a different symmetric key for each
+other party he or she wishes to contact.
 
 % Asymmetric key encryption
 \subsection{Asymmetric Encryption}
+Asymmetric encryption is an interesting cryptographic building block. In this system, $K_E \neq K_D$. Typically,
+$K_E$ is a \emph{public key}, while $K_D$ is a \emph{private key}. That is, $K_E$ may be published somewhere publicly,
+which then allows anyone to encrypt messages. However, without $K_D$, these messages cannot be decrypted. As such, (typically) only one person
+will have $K_D$. 
+
+This is a useful system because it allows anyone to send a given person an encrypted message easily; Simply retrieve the public key,
+encrypt the message, and send it to the recipient. Unlike symmetric encryption, there is no need for a protocol to establishing a shared symmetric
+key. This greatly alleviates the problems that key management systems impose.
+
+There are several systems for asymmetric encryption schemes. One popular scheme is RSA ~\cite{RSA}. In this scheme, a user picks a value which becomes
+$K_D$ and uses that to derive $K_E$. It is considered unreasonably difficult to derive $K_D$ from $K_E$ though, which makes this scheme secure.
+
+% Block ciphers
+%\subsection{Block Ciphers}
+
+% Stream ciphers
+%\subsection{Stream Ciphers}
+
+% Digital Signatures
+\section{Digital Signatures}
 
 % ZKPK
 \section{Zero Knowledge Proof of Knowledge}
