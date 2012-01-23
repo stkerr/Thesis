@@ -14,10 +14,16 @@ A level-1 auxiliary file: DOE.aux
 A level-1 auxiliary file: summary.aux
 A level-1 auxiliary file: bibliography.aux
 Database file #1: thesis.bib
+Warning--I didn't find a database entry for "AES"
+Warning--I didn't find a database entry for "DES"
+Warning--I didn't find a database entry for "Blowfish"
+Warning--I didn't find a database entry for "aessecurity"
+Warning--I didn't find a database entry for "diffiehellmankeyexchange"
+Warning--I didn't find a database entry for "RSA"
 Warning--empty author and editor in securityengineering
 You've used 1 entry,
             1791 wiz_defined-function locations,
-            459 strings with 3758 characters,
+            469 strings with 3827 characters,
 and the built_in function-call counts, 145 in all, are:
 = -- 10
 > -- 1
@@ -56,4 +62,4 @@ warning$ -- 1
 while$ -- 0
 width$ -- 2
 write$ -- 10
-(There was 1 warning)
+(There were 7 warnings)
