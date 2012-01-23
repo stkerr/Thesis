@@ -2,6 +2,77 @@
 
 \chapter{Physically Unclonable Functions}
 \label{chapter:pufoverview}
+It is desirable for a user to be sure that the device that he is using is authentic. However, due to the sophistication
+of forgeries or possible communication tampering, a user might be suspicious that the system is the system it claims
+to be. A device called a Physically Unclonable Function, or PUF, is a technology that remedies this problem.
+
+A PUF device provides a unique challenge-response capability. That is, when two PUFS are provided the identical
+challenge, they will each produce unique responses. In this way, a PUF, and the system it contains, 
+can be identified by the response value it generates to a specific challenge. A more formalized definition of
+this relationship is given below.
+
+\begin{align*}
+PUF_1(C) = R_1\\
+PUF_2(C) = R_2\\
+R_1 \neq R_2
+\end{align*}
+
+
+
+\section{Types of PUFs}
+A PUF device provides this sort of relationship by leveraging the physical properties
+of the materials in which it is instantiated. There are several different ways of doing
+this, from measuring the distortions of reflected light to leveraging the
+manufacturing inconsistencies from one chip to another.
+
+\subsection{Ring Oscillator PUF}
+A Ring Oscillator PUF is a PUF design that utilizes a circuit called a Ring 
+Oscillator (RO). An RO is an odd number of inverter gates tied together. Because
+there are an odd number of gates, this will produce a continuously changing,
+or oscillating, signal. 
+
+\begin{figure}[h] % The h specifies to place the figure 'here' as in, inline with the source code
+\includegraphics[]{images/ro.png}
+\caption{A 3 gate Ring Oscillator}
+\label{fig:ro}
+\end{figure}
+
+Depending on the number of inverter gates being used
+as well as the propogation delay of every indiviudal inverter, the output
+frequency of one RO may be different from another RO. In Figure ~\ref{fig:ro},
+this output signal corresponds to the signal marked $Q$.
+
+When used as part of a PUF, the unique behavior of an RO will be examined.
+Consider again the 3 stage RO as shown in Figure ~\ref{fig:ro}. All three
+inverter gates are assumed to have the same propogation delay and the
+interconnecting wires are assumed to impose a neglible delay. However, in
+an actual instationtion of an RO, these assumptions are invalid. All three inverters
+should have the same propogation delay, but, due to uncontrollable manufacturing
+inconsistencies and tolerances, they do not. In a similar vein, the interconnecting
+wires will also impose a non-zero delay time in signal propogation. Both of these
+factors will combine so that even if two ROs are produced on the same 
+manufacturing line, they will generate a slightly different output frequency.
+
+The slightly different output frequenices of two ring oscillators forms the basis
+of randomness for the Ring Oscillator PUF. Because the output frequencies of the
+ROs cannot be predicted, their actual frequency at runtime gives a way to uniquely
+identify the individual PUF that contains them. In Figure ~\ref{fig:ropuf}, a more
+detailed diagram of a PUF based off of ring oscillators is presented.
+
+\begin{figure}[h]
+\includegraphics[width=500px]{images/ropuf.png}
+\label{fig:ropuf}
+\end{figure}
+
+\subsection{Butterfly PUF}
+
+\subsection{Optical PUF}
+
+\subsection{Coating PUF}
+
+
+
+
 
 \section{Vulnerabilities}
 % Differential power analysis (security engineering, chapter 15)
@@ -9,5 +80,8 @@
 % Tampering
 
 \section{Comparison to Alternatives}
-Here is some text
+
+\subsection{Trusted Platform Module}
+
+\subsection{Radio Frequency Identification Tags}
 
