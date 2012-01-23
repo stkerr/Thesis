@@ -7,12 +7,11 @@ thesis.log
 *.pdf
 plot.eps
 thesis.lof
-
 applications.log
-
 front.log
-
 physicalsystems.log
-
 pufoverview.log
-
+front.blg
+front.bbl
+thesis.bbl
+thesis.blg
