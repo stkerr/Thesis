@@ -138,7 +138,35 @@ from their original values so that the PUF is no longer identifiable as the orig
 Interested readers are referred to work in ~\cite{pufaging} 
 which discusses PUF aging in greater detail.
 
+% Discuss typical PUF error hamming distance
+
 \subsection{Error Correction}
+As previously described, there are multiple different factors that can affect PUFs
+and their execution. If these are not mitigated, the functionality and utility of a PUF
+is greatly reduced. As such, an error correction scheme is typically needed when employing
+a PUF device.
+
+Usually, the raw PUF response is not directly output, but rather, is fed into an
+error correction block. The error correction block processes the raw PUF output and
+removes any small errors that may be apparent and outputs the corrected response.
+This is diagrammed in Figure \ref{fig:pufecc}. While it is possible to do the error
+correction on a discrete chip separate from the PUF itself, it is safer to perform the
+error correction on the same chip as the PUF. This prevents an adversary from potentially
+intercepting the raw PUF output as it is transmitted to the error correction block. Note
+that in Figure \ref{fig:pufecc}, there is a notation that the PUF and the error correction
+are self contained to illustrate this.
+
+\begin{figure}[h]
+\includegraphics[]{images/puf_ecc.png}
+\caption{A high level concept of PUF error correction}
+\label{fig:pufecc}
+\end{figure}
+
+The author has typically employed the use of Reed-Solomon (RS) error correction codes to do 
+error correction. By adding $t$ RS symbols, up to $t$ bit errors can be detected, 
+while $t/2$ bit errors can actually be corrected. This is a fairly large amount of
+errors to correct. For a ring oscillator PUF, \cite{pufhammingdistance} found that inter-chip
+variation (that is, the same challenge) in response was approximately 0.86\%.
 
 \section{Vulnerabilities}
 % Differential power analysis (security engineering, chapter 15)
