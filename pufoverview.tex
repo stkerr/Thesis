@@ -17,8 +17,6 @@ PUF_2(C) = R_2\\
 R_1 \neq R_2
 \end{align*}
 
-
-
 \section{Types of PUFs}
 A PUF device provides this sort of relationship by leveraging the physical properties
 of the materials in which it is instantiated. There are several different ways of doing
@@ -166,7 +164,11 @@ The author has typically employed the use of Reed-Solomon (RS) error correction 
 error correction. By adding $t$ RS symbols, up to $t$ bit errors can be detected, 
 while $t/2$ bit errors can actually be corrected. This is a fairly large amount of
 errors to correct. For a ring oscillator PUF, \cite{pufhammingdistance} found that inter-chip
-variation (that is, the same challenge on the same chip) in response was approximately 0.86\%.
+variation (that is, the same challenge) in response was approximately 0.86\%. For a 128 bit PUF,
+that equates to around 1 bit of error per execution. As such, not a lot of error correction is needed,
+but some is indeed needed. In the author's work \cite{PEAR} \cite{PUFROK} \cite{CODASPY}, he has typically 
+used 32 bits of Reed-Solomon error codes. This allows for detection of up to 32 bit errors 
+in the 128 bits and correct up to 16 bit errors, which is usually sufficient.
 
 \section{Vulnerabilities}
 % Differential power analysis (security engineering, chapter 15)
