@@ -25,6 +25,11 @@ of the materials in which it is instantiated. There are several different ways o
 this, from measuring the distortions of reflected light to leveraging the
 manufacturing inconsistencies from one chip to another.
 
+The Ring Oscillator PUF is presented first and in somewhat greater detail than
+other types of PUF since this is the type of PUF that the author worked with primarily.
+As such, it was incorporated in many of the different applications presented later in
+Chapter ~\ref{chapter:applications}.
+
 \subsection{Ring Oscillator PUF}
 A Ring Oscillator PUF is a PUF design that utilizes a circuit called a Ring 
 Oscillator (RO). An RO is an odd number of inverter gates tied together. Because
@@ -61,11 +66,37 @@ detailed diagram of a PUF based off of ring oscillators is presented.
 
 \begin{figure}[h]
 \includegraphics[width=500px]{images/ropuf.png}
+\caption{A Basic Ring Oscillator Based PUF}
 \label{fig:ropuf}
 \end{figure}
 
+As can be seen in Figure ~\ref{fig:ropuf}, the output of two ring oscillators is
+fed into two multiplexers. Based on the challenge value, the multiplexers select
+one of the output values and feed those into a counter. The counters measure the amount
+of oscillations that occur over a given time period. At the end of the time period,
+if the top counter has more oscillations, a 0 is recorded as the response, otherwise
+a 1 is recorded as the response.
+
+While the diagram only displays two ring oscillators and only 1 bit of challenge and
+response, this diagram can be extrapolated to form arbitrarily large PUFs. Trivially,
+the design can simply be copied so that an N-bit PUF requires 2N ring oscillators,
+however, there are alternative methods that require a lesser amount of ring oscillators,
+which in turn requires less space on a chip, which is desirable.
+
+It is important to note that this PUF is not concerned with the absolute number of oscillations
+of ring oscillators, but rather, with the \emph{relative} number of oscillations between
+the two ring oscillators. This is because the counters are compared to each other, rather than
+some absolute constant. This provides the benefit that if the entire circuit is heated or cooled,
+which will in turn affect operating frequency, the PUF will still produce the same response, since
+both oscillators were effected in the same way.
+
 \subsection{Butterfly PUF}
 
+\begin{figure}[h]
+\includegraphics[width=500px]{images/butterflypuf.png}
+\end{figure}
+
+~\cite{butterflypuf}
 \subsection{Optical PUF}
 
 \subsection{Coating PUF}
