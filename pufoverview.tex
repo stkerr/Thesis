@@ -26,7 +26,7 @@ manufacturing inconsistencies from one chip to another.
 The Ring Oscillator PUF is presented first and in somewhat greater detail than
 other types of PUF since this is the type of PUF that the author worked with primarily.
 As such, it was incorporated in many of the different applications presented later in
-Chapter ~\ref{chapter:applications}.
+Chapters ~\ref{chapter:rok}, ~\ref{chapter:pear}, and ~\ref{chapter:doe}.
 
 \subsection{Ring Oscillator PUF}
 A Ring Oscillator PUF is a PUF design that utilizes a circuit called a Ring 
@@ -40,6 +40,7 @@ be instantiated on a piece of silicon, such as an FPGA or ASIC device.
 \caption{A 3 gate Ring Oscillator}
 \label{fig:ro}
 \end{figure}
+\FloatBarrier
 
 Depending on the number of inverter gates being used
 as well as the propagation delay of every individual inverter, the output
@@ -63,11 +64,12 @@ ROs cannot be predicted, their actual frequency at runtime gives a way to unique
 identify the individual PUF that contains them. In Figure \ref{fig:ropuf}, a more
 detailed diagram of a PUF based off of ring oscillators is presented.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \includegraphics[width=500px]{images/ropuf.png}
 \caption{A 1-bit Ring Oscillator PUF}
 \label{fig:ropuf}
 \end{figure}
+\FloatBarrier
 
 The ring oscillator PUF shown above uses a challenge bit and feeds it to a multiplexer.
 If the challenge bit is zero, the top ring oscillator will be fed to the top counter and
@@ -93,18 +95,40 @@ be used to generate 133-bits of output by using this pool strategy.
 Another design of a PUF is called a Butterfly PUF. This design is similar to the previous
 RO design in that it can be instantiated on a piece of silicon. This allows for easy
 incorporation into existing FPGA designs or through the production of a custom ASIC chip.
+Figure \cite{fig:butterfly} shows a circuit example of a butterfly PUF and how it might be
+designed.
 
+The Butterfly PUF works by tying the output of two D flip flops to each other's inputs. By applying
+the CLR signal to one flip flop and the PRE signal to the other flip flop, the circuit will enter an
+undefined state. It will eventually go to one of two defined states (0 or 1). The circuit will typically
+settle in the same state, which forms the basis for the PUF response.
 
+Interested readers are referred to \cite{butterflypuf} for more information about the Butterfly PUF.
 
-\begin{figure}[h]
-\includegraphics[width=500px]{images/butterflypuf.png}
+\begin{figure}[h!]
+\includegraphics[scale=.70]{images/butterflypuf.png}
+\label{fig:butterfly}
+\caption{A depiction of a Butterfly PUF}
 \end{figure}
+\FloatBarrier
 
-~\cite{butterflypuf}
 \subsection{Optical PUF}
+An optical PUF is a design that leverages physical randomness that is explicitly introduced during
+a manufacturing process. The typical optical PUF is constructed by taking a transparent material
+and randomly coating it with particles to disperse the light. A laser light is then shone on the material
+and the resulting pattern is recorded. The image is then processed and this is the response of the
+PUF. Interested readers are referred to the original thesis that proposed this idea in \cite{opticalpuf}.
 
 \subsection{Coating PUF}
+A coating PUF works by creating a mesh of wires and then filling the cavities with some sort of
+dielectric material. Based on how the dielectric is applied, there will be varying levels of capacitance
+between the wires in the mesh. This capacitance can then be measured as the unique response for
+the given PUF design. Details are presented in \cite{coatingpuf}. 
 
+The coating PUF is typically used as a sort of anti-tamper device. The coating PUF is wrapped
+around an existing circuit and is used to enable its operation. That is, the proper PUF response
+is needed to unlock the device. If an adversary is to alter the coating in anyway (though reverse engineering 
+for example), this will alter the PUF response and cause the underlying circuit to not function. 
 
 \section{PUF Error and Error Correction}
 An important part to consider for any PUF device is the stability of its output for
@@ -179,13 +203,44 @@ used 32 bits of Reed-Solomon error codes. This allows for detection of up to 32 
 in the 128 bits and correct up to 16 bit errors, which is usually sufficient.
 
 \section{Vulnerabilities}
+Besides just correcting for benign errors due to the nature of PUFs, it is important to consider
+malicious tampering and how vulnerable the PUF is. Again, the use of PUF in this section refers
+to the ring oscillator design previously described unless otherwise noted.
+
 % Differential power analysis (security engineering, chapter 15)
+There is a class of attacks called differential power analysis, \textit{DPA}, that needs to be considered
+for PUFs. This involves monitoring the power consumption of a circuit during its execution. It is then possible
+to deduce what bits of data are being processed at a given time. For example, if the floating point processor
+takes a considerable amount of power in a microcontroller, an attacker could monitor the power during execution.
+When he saw the power usage spike, he could infer that a floating point operation was taking place. This attack
+is detailed in several papers and a fairly good overview is given in the book \cite{securityengineering].
+
+The ring oscillator PUF design is fairly resilient against this type of attack however. During execution of the
+PUF, every ring oscillator will be executing simultaneously as well as the other support circuitry. Because
+every execution utilizes the ring oscillators, power consumption will be constant. This thus eliminates the
+power differences needed for DPA.
 
 % Tampering
+Tampering with the PUF itself is a vulnerability that needs to be considered. An attacker may attempt
+to reverse engineer the PUF so that he could model and impersonate it. This would involve measuring
+the distances between wires, capacitances, and propagation delays of the various elements of the PUF.
+However, these elements are so small (nanometers) that the invasive techniques for measuring them
+would likely alter their qualities, so any measurements taken would not be usable for impersonating
+the original PUF. As such, tampering can destroy a PUF and its usability, but the risk of being able
+to duplicate and impersonate the PUF is very very low.
 
 % Supply chain corruption
+Another important aspect that needs to be considered is if the PUF is tampered with at any point
+during the manufacturing or delivery process. The main concern is that an attacker could intercept
+the PUF and create a model of it; that is, the response for every possible challenge. It is possible to
+offset this risk however by using sufficiently large PUFs. If a 128 bit PUF is used, this sort of attack
+would require storing $2^{128}$ different values. There are estimated to be about $2^80$ atoms
+in the universe so this attack is not very realistic.
 
 \section{Comparison to Alternatives}
+Several technologies exist that fulfill roles similar to the of PUF technology. The Trusted Platform Module (TPM)
+and Radio Frequency Identification Tags (RFID Tags) are described below, as these are two very common
+technologies that are in practice today.
 
 \subsection{Trusted Platform Module}
 
