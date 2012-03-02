@@ -12,9 +12,9 @@ A purely software system may be able to assume it will only receive input from a
 channel. In contrast, a physical system must be able
 to account for multiple different input sources, especially input types that might not have been intended. 
 A physical system might receive input directly from end users, networking devices, sensors. A physical
-system could also consider environment changes as a sort of secondary, unitended input. For example,
-the device's power may fluctuate, potentially changing the behavior of internal circuits. A temperature change
-could cause the sensitivity of a certain component to increase or decrease, which will in turn alter the behavior
+system could also consider environment changes as a sort of secondary, unintended input. For example,
+the device's power may fluctuate, potentially changing the behaviour of internal circuits. A temperature change
+could cause the sensitivity of a certain component to increase or decrease, which will in turn alter the behaviour
 of the system. These are but a few examples of the various factors that a physical system must be properly
 designed to handle and account for.
 
@@ -25,18 +25,62 @@ Because of this, it is difficult to discuss physical systems generically. Rather
 of the common configurations that physical systems take. The rest of the work will regard physical systems as
 belonging to one of the configurations discussed.
 
+Despite it being difficult to characterize physical systems in general terms, their operation can be viewed using the mathematical
+relation below. Physical inputs are inputs from physical interfaces, such as buttons, control terminals, or radio signals. Other
+inputs might be information received over the network or from some sort of attached peripheral.
+
+\begin{align*}
+Output = System_{Physical}(Physical Inputs, Other Inputs, Environment)
+\end{align*}
+
+The three configurations of physical systems that will be considered are that of the standalone, deployed, or peripheral physical
+systems. Each is distinct based upon how much interaction it has, not only with the physical world, but also with other physical
+systems or remote devices. Peripheral systems have the most interaction with remote parties and other systems while standalone
+systems have the least. In terms of the equation above, the three categories vary based on what sort of 'Other Inputs' are passed
+to them.
+
 % Standalone device (in the field)
 \subsection*{Standalone Physical Systems}
 One common configuration of a physical system is that of a standalone physical system. This means that the
-physical system is not reliant on communicating with another physical; it is deployed and functions
-independently. An example of this could be a cash register. Employees conduct transactions on the register
-and 
+physical system is not reliant on communicating with another physical system; it is deployed and functions
+independently. An example of this could be a garage door opener. There might be a control pad on the side of the
+garage which can open or close the garage door. Additionally, there could be an option to open the door remotely
+using some sort of radio frequency device.
+
+Standalone physical systems are more straightforward to deal with in a lot of cases. The garage opener example has
+a very specific use case, defined inputs (control pad and remote control) and defined outputs (open or close the garage
+door). These qualities typically do not change nor are updated often, if ever. As such, it is typically easy to create a sort
+of state diagram to model the behaviour of standalone physical systems.
 
 % Device in the field that communicates back
 \subsection*{Deployed Physical Systems}
+Another category of physical systems is that of the 'deployed physical system'. This is a type of physical system that not only
+interacts with the environment it is in, but may also communicate with another physical system or some sort of remote
+server. A cash register is a good example of a deployed physical system. It takes input from cashiers, who can record transactions,
+print receipts, and insert or remove currency from it. However, it also communicates with remote servers in certain cases, such
+as when a credit card is used. It must interact with the physical environment, but also must interact with remote servers to verify
+the credit card transactions.
+
+Because a deployed physical system must potentially interact with a remote party, it is more complex than a standalone physical
+system. It must contend with the same sorts of issues that standalone systems do, but also has to deal with issues that could
+relate to the remote communication or other physical system.  As such, it is more complex and difficult to model a deployed
+physical system than a standalone physical system.
 
 % Physical peripheral
 \subsection*{Peripheral Physical Systems}
+Peripheral physical systems are the most complex type of physical system. These are typically normally called 'peripherals'. That
+is, they do not provide the main functionality of a system, but augment it's ability in some way. An example could be a 
+programmable sensor array. The sensor array could be connected to a network through which it receives commands. The array
+would then take sensor readings and communicate them back over the network. Not only does the array have to 
+interact with the physical environment to take readings, but there is also the component of dealing with the
+command and control element from the network connection.
+
+Peripheral physical systems are characterized by the fact that they not only require interaction with the physical world, but
+also with other physical systems or with a remote connection. Because of this, it is very difficult to model the system, since
+there are a very large number of ways that the other communicating party could potentially behave, in addition to any difficulties
+involved with modelling the physical inputs themselves. 
+
+
 
 % Describe the coming sections of the paper
 
@@ -49,7 +93,7 @@ any malicious reason behind them, but they still must be considered and evaluate
 \subsection{Device Failure}
 % Device failure
 
-\subsection{Device Degredation}
+\subsection{Device Degradation}
 % Device degradation 
 
 \section{Malicious Considerations}
