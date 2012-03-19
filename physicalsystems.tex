@@ -80,25 +80,97 @@ also with other physical systems or with a remote connection. Because of this, i
 there are a very large number of ways that the other communicating party could potentially behave, in addition to any difficulties
 involved with modelling the physical inputs themselves. 
 
-
-
 % Describe the coming sections of the paper
 
 \section{Benign Considerations}
-There are multiple ways that a physical system or device could fail. These failures may not necessarily have
-any malicious reason behind them, but they still must be considered and evaluated during system design.
+There are multiple ways that a physical system or device could fail. There are multiple benign ways that a system could
+fail. That is, the system is not attacked in any way, but some circumstances cause the system to fail or degrade in some
+way. There any many different ways to reduce these risks, as discussed below.
 
 % Discuss the benign difficulties associated with physical systems
 
 \subsection{Device Failure}
 % Device failure
+One failure model is for a complete device failure. In this instance, the device has failed to such a point that it is no
+longer able to perform any of its intended function. This typically occurs to some catastrophic component failure or a 
+lack of preventative maintenance as a system's performance degrades over time.
+
+To mitigate the danger of a complete system failure, it is necessary to impose a schedule for periodic maintenance and
+monitoring of the operating environment for dangerous conditions. An example of this would be inspecting all the moving
+parts and springs on a garage door opener to ensure they are not cracking or otherwise at risk of failing. 
+Monitoring the environment is critical to ensure that a system is not operating in conditions it was not designed for. If a sensor
+array was designed for operating indoors and it is placed outside and subjected to weather, of course it will fail.
+
 
 \subsection{Device Degradation}
 % Device degradation 
+One of the few "good" aspects about a complete device failure is that it is readily noticeable. If the system fails completely,
+it is not possible to interact with it any more. In contrast, if a device \textit{degrades}, the degradation may not be noticed
+for a long time, while in the interim, the degraded system will be used under the assumption it is properly functioning.
+
+An example of this is if a sensor array were to be degraded in some way, its readings might be skewed. The skewed readings
+would then be recorded and fed into a processing program or used by some other party. Depending on the application, this
+could cause the intended application to then function improperly. In certain instances, this degradation can even prove to be
+life threatening, such as when temperature sensors in the Fukishima nuclear plant were incorrectly reporting the internal
+temperature of nuclear reactors.~\cite{fukushima}
 
 \section{Malicious Considerations}
 % Discuss different malicious problems with physical systems
+In addition to the problems that are inherently present in physical systems, it is necessary to consider problems that may
+occur from attackers maliciously using the system. They may be attempting to gain unauthorized access to the system,
+prevent legitimate users from using the system, disable the system entirely, or any number of other motivations.
 
+\subsection{Denial of Services}
 % DOS
+It is entirely possible that a malicious entity wants to simply disable and disrupt access to a physical system, preventing legitimate access
+to the system. If the physical system is unable to deliver valid services to its intended users, it is essentially worthless. 
+
+Denial of service attacks against physical systems are unique from the denial of service attacks against software. Some are very complex,
+while others are very simple. In the simplest case, an attacker can simply use a hammer to smash the system. More complex denial of
+service attacks may include inputting erroneous data, which may crash or slow the system. Attackers might also disrupt the environment
+that the physical system resides in, such that it is not useful. For instance, an attacker might put a heating element near a thermometer,
+which would essentially mean the system is unusable for its intended purpose.
+
+As far as defences against these types of attacks go, a first step is usually to ensure that the system is protected against a reasonable
+amount of tampering. This could include protective cases, placing the system behind a fence, or having a guard present. As mentioned
+previously, proper maintenance can also be helpful, to prevent an attacker from manipulating and disturbing the surrounding
+environment.
+
+\subsection{Man in the Middle}
 % MITM
+
+\subsection{Impersonation}
 % Impersonation
+
+% Signals
+\subsection{Signals Injection}
+Due to the nature of electronics, physical systems are susceptible to external signals being directed at them. If an electric or 
+magnetic field is directed at certain elements of internal circuitry, it is possible to alter the behaviour of those circuits. An attacker
+can potentially bombard a physical system in some way to elicit a response from the device.
+
+An example of this type of signal injection was shown in the Cold War with 'The Thing'.~\cite{thing} In 1945, a Soviet made Seal of the 
+Republic was given as a gesture of friendship and installed in a sensitive office. When bombarded with radio waves, the device internals
+would resonate, modulate the radio waves, and it was possible to listen to conversations in the room where it was installed. This is a
+classical example of how physical systems can be manipulated through signal injection. In this case, the signal injection was a desired
+feature, but it is important to be aware of this danger when designing physical systems.
+
+Another example is disruption of GPS signals. This typically occurs because radio frequency signals are using the same wavelengths as
+GPS signals. GPS signals are usually weaker than RF signals, so the RF signals dominate and drown out the GPS signals. ~\cite{gpsdisruption} 
+was delivered in 2001 and details some of these risks and defences associated with GPS interference, both unintentional and intentional.
+
+To mitigate signal injection, it is important that system designers consider and plan for signal injection attacks. Defences against this could
+include shielding equipment against magnetic and electrical fields or using multiple frequencies and receivers when possible~\cite{gpsdisruption}.
+These are just some techniques to defend against the signal injection threat which must be considered.
+
+\subsection{Signal Emissions}
+Adversaries may also attempt to harvest a physical systems signal emissions in an attempt to gather information. This is because during
+normal operation, many devices give off electromagnetic and radio signals, at least to some extent, even if unintended. There has been
+examples where it is possible to recreate what is on a user's CRT or LCD computer monitor by recording the emissions of the monitor
+from a far, using a process known as "Van Eck phreaking".~\cite{monitor}~\cite{lcds}
+
+NATO created a program called TEMPEST to investigate and report on the risks associated with signal emissions and defences
+against these threats.~\cite{tempest} Some of the easily implementable changes they suggest are to put electromagnetic shielding
+around devices. Suggestions presented also include signal filtering such that certain frequencies are attenuated or completely removed
+from emission.
+
+%\subsection{Signal Attenuation}
