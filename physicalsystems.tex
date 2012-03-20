@@ -138,9 +138,42 @@ environment.
 
 \subsection{Man in the Middle}
 % MITM
+There is a class of attack known as Man in the Middle (MITM) attacks. This is when an attacker sits between two parties and eavesdrops
+on their communications. He is then able to learn sensitive data that the two parties are transmitting.
+
+This type of attack is especially relevant for physical systems. Physical systems frequently transmit data over cables, infrared, radio, or
+other wireless communication methods. If an attacker was able to splice a listening device into a cable or construct the appropriate type
+of receiver, it is plausible he would be able to easily recover the communications between the two parties. 
+
+Depending on the type of data
+being sent, this could compromise the security and integrity of the system. For instance, maybe an attacker would be able to recover the
+command sequence to reset a sensor array. He could then reset the sensor array at will.
+
+To combat this type of threat, it is important to assume that any communication being done is being eavesdropped on. This then
+necessitates \textit{encrypting} the data being transmitted. In this way, even if an adversary was to recover the data, he would not be
+able to make sense of it. Chapter~\ref{chapter:cryptographyoverview} goes into more detail on encryption techniques.
+
+As a final note, it is important to note that MITM are not relevant for only signals being transmitted over wireless and wires, but also on
+the internal buses of the circuits themselves. An attacker might be able to attach logic probes to bus lines between the processor and memory
+of the system and deduce sensitive data. In this case, it is important to take measures to prevent these bus lines from being exposed,
+through the use of potting and other tamper-proofing methods. Another option is to incorporate the entire design (or at least the sensitive
+bus lines) on a single chip, such as a Field Programmable Gate Array (FPGA) or a System on a Chip (SOC).
 
 \subsection{Impersonation}
 % Impersonation
+Another issue for physical system designers to be aware of is that any party they are communicating with is actually an authorized party.
+This is especially relevant for deployed physical systems and peripheral physical systems. Since they require external communication as a
+major component of their proper operation, they are especially sensitive to these attacks.
+
+It is plausible that an attacker could disconnect the cables used to communicate and re-attach them to his own machine. He could then
+issue commands and communicate with the physical system. Unless protective measures are in place, the system would then interact
+back with the attacker. The attacker could then issue any sorts of commands that he wished of the system.
+
+The issue of impersonation harkens to the need for \textit{authentication}. Chapter~\ref{chapter:cryptographyoverview} goes into more
+details on authentication protocols, but essentially, all communications between the system and the other party would have to be
+\textit{signed}. If the signatures did not match the expected values, the communication is rejected and dropped. In this way, an attacker
+would have to be able to forge the signature of the valid party, which is considered computationally difficult if a proper signature scheme
+is used.
 
 % Signals
 \subsection{Signals Injection}
