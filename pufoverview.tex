@@ -243,6 +243,35 @@ and Radio Frequency Identification Tags (RFID Tags) are described below, as thes
 technologies that are in practice today.
 
 \subsection{Trusted Platform Module}
+Trusted Platform Modules (TPM) are a technology that is similar, but different than PUFs. They are
+typically integrated into a computer's motherboard, though they are also present in other applications.
+
+TPMs typically provide a large variety of services, as they are technically a cryptoprocessor. This is in
+contrast to a PUF device, which is just a provider of the challenge-response capability. TPMs are used
+to provide remote attestation, binding, and data sealing. These services leverage an \textit{endorsement 
+key}, which is installed in the TPM at manufacture time.
+
+One area where TPMs and PUFs differ is that TPMs only have their one secret endorsement key to act
+as the key to all operations. If this is ever compromised, such as when it is being burned in at
+manufacturing time, all TPM security is lost. In contrast, PUFs behaviour is characteristic of the challenge
+provided. If a sufficiently large key space is chosen, such as 128 bits, then it is unrealistic that an
+attacker could ever model the entire response space, which would encompass $2^{128}$ possible choices.
+
+Readers interested in more about TPMs are referred to the TPM standards in~\cite{tpm}.
 
 \subsection{Radio Frequency Identification Tags}
+Radio Frequency Identification Tags, or RFID, are devices that are exposed to radio waves, which then
+allow a reader device to read the information stored on the tag. They sometimes do not require power
+and can operate off the power from the reader itself.
 
+The information stored on tags is typically personally identifiable information, such as ID numbers,
+location of origin, or related data. RFID tags are used in applications such as livestock inventory,
+shipping containers, or warehouse progress.
+
+A security concern with RFID tags is that they can be read passively and silently by unintended persons.
+For instance, someone might carry a reader in his pocket and record the data about people walking
+by him. This is a security risk and there has been some controversy over it.
+
+RFID tags are a contrast to PUF. RFID tags simply store data and reads it out when queried. In contrast,
+PUFs are a function that requires a specific input to get the desired response. In this way, more security
+is present.
