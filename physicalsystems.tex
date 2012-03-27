@@ -175,6 +175,20 @@ details on authentication protocols, but essentially, all communications between
 would have to be able to forge the signature of the valid party, which is considered computationally difficult if a proper signature scheme
 is used.
 
+% Replay attacks
+\subsection{Replay Attacks}
+There is a class of attacks that is related to MITM attacks called replay attacks. Replay attacks leverage the fact that certain protocols
+might consistently send the same data every execution of the protocol. For instance, consider a system that requires the sender to 
+send an encrypted version of an ID number
+before every message to identify itself. If that ID is always the same, an attacker could simply capture the encrypted text and send
+that; he does not need to actually know the plaintext version of the ID to impersonate the sending party.
+
+This type of attack can be remedied by ensuring that every execution of a protocol is unique. This is done through the use of
+timestamps or "nonce" values, which are randomly chosen, one time use values. Then, if an attacker tried to replay previous
+communications, the attack would fail since the timestamp or the nonce value would not match. So in the example above, the
+sender might encrypt his ID number concatenated with the current time. Then, an attacker would not be able to re-use any
+communications he captures in the future.
+
 % Signals
 \subsection{Signals Injection}
 Due to the nature of electronics, physical systems are susceptible to external signals being directed at them. If an electric or 
