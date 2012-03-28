@@ -9,6 +9,10 @@ they are using. For instance, an attacker could have installed a key logger on a
 and password they have. Even with the best security systems on the machine in place, if the attacker is able to capture
 a user's keystrokes, the other security is moot. 
 
+A way to prevent this type of attack is by using an external device or an alternate channel to enter sensitive information,
+such as passwords or credit card numbers. In this way, if a keylogger or the original system is compromised, the attacker
+will not be able to recover those passwords, credit cards, or other sensitive information.
+
 PEAR, or Physically Enhanced Authentication Ring, was designed to counteract this key logger threat to a system. In addition
 to defending against keyloggers specifically, it increases security in general because it is the second part of a "two factor
 authentication" system. It also is a physical system, specifically a peripheral physical system, since it incorporates its
@@ -22,18 +26,25 @@ provider. Note that no sensitive data is actually input to the PC, which potenti
 is requested to ferry between the PEAR device and the service provider is encrypted, so recording this data does not reveal
 any information.
 
+The typical use case is that a user requests a PEAR device from a service provider, such as a bank. The bank then configures
+and mails the PEAR device to the user. The user sets his PIN number on the device and completes the enrollment protocol.
+Then, when he desires to use the service, he requests the authentication protocol. He enters his PIN into the PEAR device
+and the device then executes the rest of the authentication protocol. If successful, the service provider then allows
+the user to access the service. 
+Note that if a user already has a PEAR device from another service provider, he can easily use the same device for another
+service; he simply must re-execute the enrollment procedure and enter a new PIN for the new service (or use the old PIN).
+
 The system works by having every service provider associated with an ID number of some kind. Each user of the service will
 also have an ID number associated with it. This allows both parties to identify themselves to each other.
 
 \section{Protocol Details}
-The PEAR system consists of two parts, an enrollment step initially and then an authentication step.
+The PEAR system consists of two parts, an enrollment step, which is executed once initially and then an authentication step,
+which is executed every time the user desires to use the service.
 Table~\ref{tab:pearprotocol} presents a formalized description of the protocols, while Figure~\ref{fig:pearauthentication}
-and Figure~\ref{fig:pearenrollment} give graphical representations that occur.
+and Figure~\ref{fig:pearenrollment} give graphical representations of the different stages occurring.
 
-An interesting point to note is that during the enrollment stage, an "out of band" communication is required to deliver
-the combination of the service provider's ID, the user's corresponding ID for that service, and a nonce value. This could
-be done by installing these values on the hardware device before it is given to an end user. For instance, if PEAR was being
-used with a bank, the bank might install these values before mailing the device to the user.
+As seen in the diagrams below, the four players in the PEAR system are the user himself, the PEAR device, the user's computer,
+and the service provider. Note that the user's computer and the service provider are assumed to be connected over the Internet.
 
 \begin{figure}[!ht]
 \includegraphics[width=500px]{images/enrollment.jpg}
@@ -41,6 +52,25 @@ used with a bank, the bank might install these values before mailing the device 
 \caption{The enrollment stage of PEAR}
 \end{figure}
 \FloatBarrier
+
+The user initially requests an enrollment procedure from the service provider. The service provider then sends the tuple
+of $<Website ID, User Label>$ and a nonce to the PEAR device directly, over a secure channel. The user then enters his
+new PIN number to the PEAR device. Once the PEAR device has these different pieces of information, it is able to execute
+the steps contained inside the blue box in the diagram. All the pieces of information are hashed together. The resulting
+hash is then used as input to the Password Generator and Verifier (PGV). Note that a PUF is an acceptable PGV. The results
+from the PGV are then used in a commitment protocol. In addition to sending the results of the commitment to the service
+provider, the device also sends the $<Website ID, User Label>$ tuple and a hash of the tuple combined with the committed value.
+
+An interesting point to note is that during the enrollment stage, an "out of band" communication is required to deliver
+the combination of the service provider's ID, the user's corresponding ID for that service, and a nonce value. This could
+be done by installing these values on the hardware device before it is given to an end user. For instance, if PEAR was being
+used with a bank, the bank might install these values before mailing the device to the user. If the user was adding a new
+service to a PEAR device he already had, the tuple of $<Website ID, User Label>$ and the nonce might be delivered through
+post or given over the phone to the user. The key point is that they are not delivered over the same channel as will be
+used for the rest of the protocols (such as the Internet), since if an attacker is able to recover these values, he would
+be able to make a fraudulent account.
+
+
 
 \begin{figure}[!ht]
 \includegraphics[width=500px]{images/auth.jpg}
@@ -86,7 +116,7 @@ From a high level view, Figure~\ref{fig:peararchitecture} describes the architec
 
 \begin{figure}[!ht]
 \includegraphics[width=500px]{images/pearimpl.jpg}
-\label{fig:peararchitecturet}
+\label{fig:peararchitecture}
 \caption{Implementation of a PEAR device}
 \end{figure}
 \FloatBarrier
