@@ -112,7 +112,7 @@ be able to make a fraudulent account.
 \section{Security Considerations}
 Several lemmas are presented below which address various different security aspects of the PEAR system.
 Following the lemmas is a discussion of some of the different security issues facing physical systems that
-were discussed in Chapter~\ref{chapter:physicalsystems}.
+were discussed in Chapter~\ref{chapter:physicalsystems} and how the lemmas relate to those concerns.
 
 \subsection{Lemmas}
 
@@ -121,8 +121,8 @@ were discussed in Chapter~\ref{chapter:physicalsystems}.
 \noindent \emph{A man-in-the-middle attacker cannot recover any useful data communicated over the network between the
 service provider and the computer.} \\
 {\bf Proof:}  The only data that is transmitted between the computer and network is the tuple containing the service
-ID and the user's ID initially and then steps of the zero-knowledge proof (see Figures~\ref{fig:enroll} and
-\ref{fig:auth}). The tuple will only be sent during authentication, so we can assume that users are already enrolled.
+ID and the user's ID initially and then steps of the zero-knowledge proof (see Figures~\ref{fig:pearenrollment} and
+\ref{fig:pearauthentication}). The tuple will only be sent during authentication, so we can assume that users are already enrolled.
 An attacker gains nothing by intercepting the tuple during authentication, since it still requires both the user PIN
 number and the device itself to impersonate a user. Intercepting the steps of the zero-knowledge proof also gives him
 no information since these zero-knowledge protocols do not reveal any information about the committed value.
@@ -131,7 +131,7 @@ no information since these zero-knowledge protocols do not reveal any informatio
 \noindent \textbf{Lemma 2.} \\
 \noindent \emph{A man-in-the-middle attacker cannot recover any useful data communicated between the user computer and
 the device.} \\
-{\bf Proof:}  As shown in Figures~\ref{fig:enroll} and \ref{fig:auth}, the only data that is being transmitted over this channel is
+{\bf Proof:}  As shown in Figures~\ref{fig:pearenrollment} and \ref{fig:pearauthentication}, the only data that is being transmitted over this channel is
 the tuple from the server and the zero-knowledge steps. As shown in Lemma 1, an attacker cannot gain any useful
 information from this. 
 Also note that the PUF secret is never transferred outside of the device, but rather a commitment or
@@ -180,13 +180,41 @@ tuple, nonce, and committed value. The service provider will verify that this tu
 valid or has already been enrolled, the service provider denies the enrollment request.%\hfill$\square$ \\
 
 \subsection{Man in the Middle}
+One of the considerations for system design is the presence of a man in the middle (MITM) attacker. If the MITM
+attacker is able to capture sufficient sensitive data, he could potentially compromise the security and integrity
+of the system. 
+
+Lemmas 1, 2, and 3 address the capabilities of an MITM attacker. Notably, since the attacker would only capture
+public information or interim steps of the zero knowledge proof, he is unable to recover anything of interest.
+However, an active MITM attacker would be able to drop all traffic between the various parties and commit a
+denial of service attack, though this case is not of great interest.
 
 \subsection{Replay Attacks}
+It is important to ensure that an attacker cannot record communication and then replay these communications
+later on.
+
+Lemma 7 addresses this type of threat. Since the enrollment stage requires a nonce , it is not possible
+to record a user's tuple from the authentication step and use that to enroll. Lemma 1, 2, and 3 make mention
+of the fact that only interim steps of the zero knowledge proof would be recoverable, which are not usable
+in a replay attack.
 
 \subsection{Impersonation}
+Impersonation is another threat that must be considered; it is unacceptable if an adversary is able to pose as
+the service provider or as a user.
+
+Lemmas 4 and 5 discuss the threat of impersonation. Simple brute force impersonation of a user to a service
+provider would require defeating a zero knowledge proof, which is computationally infeasible. If the attacker
+was able to steal the physical device, he would be able to execute the zero knowledge proof, assuming he could
+guess the user's PIN. If a brute force attack was used, the service provider would easily be able to detect it.
 
 \section{Implementation}
-From a high level view, Figure~\ref{fig:peararchitecture} describes the architecture of a PEAR enabled device.
+From a high level view, Figure~\ref{fig:peararchitecture} describes the initial implementation of a PEAR enabled device.
+The Saxo-L board from KNJN.com~\cite{KNJN} was used to do this work. The board contained both an FPGA and an ARM
+microcontroller. The FPGA was used to implement the PUF device and supporting circuitry. The ARM microcontroller
+was used to do the general purpose computation, including all the different cryptographic processing. The two
+were connected to each other with a Serial Peripheral Interface. A keypad for entering PINs was connected using a
+breaboard and directly wiring it to I/O pins of the ARM. The entire system was then connected to the PC over
+a USB connection.
 
 \begin{figure}[!ht]
 \includegraphics[width=500px]{images/pearimpl.jpg}
@@ -195,5 +223,37 @@ From a high level view, Figure~\ref{fig:peararchitecture} describes the architec
 \end{figure}
 \FloatBarrier
 
+\subsection{Limitations and Potential Improvements}
+Because the initial implementation was proof of concept, there are several ways it could be improved. Several
+vulnerabilities are also present that were discussed in Chapter~\ref{chapter:physicalsystems}.
+
+One glaring shortcoming is the fact that the PUF and the ARM are connected over an SPI interface which is completely
+open on the Saxo-L board. As such, an adversary could easily put logic probes on the SPI bus and record the PUF
+challange/response values as they were transmitted to the ARM, since they are sent unencrypted. There are a few
+ways to remedy this. 
+
+One solution is to put sorts of tamper proofing in place, such as potting, power filtering, among others. 
+This would be effective, but would most likely be expensive and not completely effective. Another solution would
+be to encrypt the traffic being sent over the SPI bus. This would be fairly easy to do, but would impose some
+computational overhead on the entire device, which may or may not be acceptable. 
+
+The ideal solution to this problem is to incorporate the microcontroller onto the same chip as the PUF itself. This
+is possible since there are "soft core" versions of ARM available which can be instantiated on the FPGA. Additionally,
+Altera (who makes the FPGA on the Saxo-L) provides a soft core microcontroller for their FPGAs, as do many other
+FPGA vendors. This is probably the best solution since it eliminates the need for two discrete chips, since both portions
+can be put in one FPGA. It is still possible to use the same SPI bus concept, but the SPI bus will be internal to the
+FPGA, so it will not be possible to put logic probes on it. If an attempt is made to strip portions of the FPGA to
+insert probes, this will likely disturb the PUF and corrupt it, so any results will be unhelpful. Tampering with the FPGA
+and its relation to the PUF inside was discussed in Chapter~\ref{chapter:pufoverview} in more detail.
+
+If the entire device was incorporated on to an FPGA, there would need to also be some sort of power filtering done.
+This would prevent differential power analysis attacks from being done on the cryptographic portions of the FPGA.
+
+While it is necessary to prevent tampering to some degree, Lemma 5 means that a large amount of tamper proofing
+is not necessarily needed. The device is in its most vulnerable state after the PIN has been entered and the device is
+executing the zero knowledge proof. If an attacker has attached logic probes and other tools necessary to conduct
+many kinds of attacks, it would be very obvious to the legitimate users, who would then refuse to enter their PINs.
+
 \section{Acknowledgement}
-This work was partially funded by Sypris Electronics. A paper on PEAR was published in 2010 in the SPRINGL 
+This work was partially funded by Sypris Electronics. A paper on PEAR was published in 2010 in the SPRINGL workshop
+of the SIGPATIAL ACM GIS conference.~\cite{PEAR}
