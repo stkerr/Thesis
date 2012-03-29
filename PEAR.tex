@@ -51,7 +51,7 @@ used with a bank, the bank might install these values before mailing the device 
 
 \begin{table}[!ht]
 \label{tab:pearprotocol}
-\caption{More formalized version of the PEAR protocols}
+\caption{Formalized version of the PEAR protocols}
 \noindent\makebox[\textwidth]{%
 \begin{tabular}{|l|}
 \hline
@@ -80,6 +80,80 @@ used with a bank, the bank might install these values before mailing the device 
 \FloatBarrier
 
 \section{Security Considerations}
+Several lemmas are presented below which address various different security aspects of the PEAR system.
+Following the lemmas is a discussion of some of the different security issues facing physical systems that
+were discussed in Chapter~\ref{chapter:physicalsystems}.
+
+\subsection{Lemmas}
+
+
+\noindent \textbf{Lemma 1.} \\
+\noindent \emph{A man-in-the-middle attacker cannot recover any useful data communicated over the network between the
+service provider and the computer.} \\
+{\bf Proof:}  The only data that is transmitted between the computer and network is the tuple containing the service
+ID and the user's ID initially and then steps of the zero-knowledge proof (see Figures~\ref{fig:enroll} and
+\ref{fig:auth}). The tuple will only be sent during authentication, so we can assume that users are already enrolled.
+An attacker gains nothing by intercepting the tuple during authentication, since it still requires both the user PIN
+number and the device itself to impersonate a user. Intercepting the steps of the zero-knowledge proof also gives him
+no information since these zero-knowledge protocols do not reveal any information about the committed value.
+%\hfill$\square$ \\
+
+\noindent \textbf{Lemma 2.} \\
+\noindent \emph{A man-in-the-middle attacker cannot recover any useful data communicated between the user computer and
+the device.} \\
+{\bf Proof:}  As shown in Figures~\ref{fig:enroll} and \ref{fig:auth}, the only data that is being transmitted over this channel is
+the tuple from the server and the zero-knowledge steps. As shown in Lemma 1, an attacker cannot gain any useful
+information from this. 
+Also note that the PUF secret is never transferred outside of the device, but rather a commitment or
+proof is sent. As such, a MITM attack would not reveal the user's secret, but only the various steps of
+the zero-knowledge proofs, which are secure against MITM attacks. In addition, the service provider does not even ever
+know the user's PIN.%\hfill$\square$ \\
+
+\noindent \textbf{Lemma 3.} \\
+\noindent \emph{An active man-in-the-middle attacker cannot recover any useful information by modifying data between
+the device and computer or computer and network during the authentication stage.} \\
+{\bf Proof:}  An attacker who modifies the tuple being sent to the device or computer from the network would cause the
+device to create an incorrect zero-knowledge proof. This would disrupt the user's ability to authenticate. However,
+the attacker would not be able to glean any information from the proof generated from this modified tuple, due to the
+use of the zero-knowledge proof.
+Note that an attacker would be able to recover useful information if it could modify the tuple during enrollment. It
+could substitute a malicious tuple for the valid tuple, which would cause users to be authenticating to the MITM, rather
+than the service provider. We avoid this problem by requiring that the tuple be sent securely during enrollment.
+%\hfill$\square$ \\
+
+\noindent \textbf{Lemma 4.} \\
+\noindent \emph{A PPT adversary can impersonate a legitimate user to the server with only negligible probability.} \\
+{\bf Proof:}   As the final authentication step is to complete a zero-knowledge proof, an attacker would have to be able
+to defeat a zero-knowledge proof, which happens only with a negligible probability if an attacker does not know the
+user's secret.%\hfill$\square$ \\
+
+\noindent \textbf{Lemma 5.} \\
+\noindent \emph{Given physical access to the device, an attacker could impersonate the legitimate user with only
+negligible probability.} \\
+{\bf Proof:}  If an attacker had access to the device, it would not be able to compute the proper hash value unless it
+supplied the correct PIN to the device. If the attacker attempted a brute force attack on the user's PIN,
+it would be trivial for a server to detect and disable the user's account temporarily. As long as the key space for the
+PIN is sufficient, this attack is not realistic.%\hfill$\square$ \\
+
+\noindent \textbf{Lemma 6.} \\
+\noindent \emph{A legitimate user can authenticate to a legitimate $S$, except with negligible probability.} \\
+{\bf Proof:}  As a legitimate user would have access to the user PIN and a valid tuple from the server, he would be
+able to successfully complete the zero-knowledge proof, thus authenticating.%\hfill$\square$ \\
+
+\noindent \textbf{Lemma 7.} \\
+\noindent \emph{An attacker cannot enroll using an existing or past user's credentials, except with negligible
+probability.} \\
+{\bf Proof:} An attacker would be able to capture a user's tuple during authentication. It is plausible that he could
+attempt to enroll using this tuple. To prevent this, when the service provider issues the tuple initially, it also
+provides a nonce. During the enrollment protocol, the user submits the committed value, the tuple, and a hash of the
+tuple, nonce, and committed value. The service provider will verify that this tuple is valid. If the tuple is not
+valid or has already been enrolled, the service provider denies the enrollment request.%\hfill$\square$ \\
+
+\subsection{Man in the Middle}
+
+\subsection{Replay Attacks}
+
+\subsection{Impersonation}
 
 \section{Implementation}
 From a high level view, Figure~\ref{fig:peararchitecture} describes the architecture of a PEAR enabled device.
