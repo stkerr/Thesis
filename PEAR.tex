@@ -115,8 +115,6 @@ Following the lemmas is a discussion of some of the different security issues fa
 were discussed in Chapter~\ref{chapter:physicalsystems} and how the lemmas relate to those concerns.
 
 \subsection{Lemmas}
-
-
 \noindent \textbf{Lemma 1.} \\
 \noindent \emph{A man-in-the-middle attacker cannot recover any useful data communicated over the network between the
 service provider and the computer.} \\
@@ -223,7 +221,12 @@ a USB connection.
 \end{figure}
 \FloatBarrier
 
-\subsection{Limitations and Potential Improvements}
+The entire Saxo-L board is 44mmx60mm, which is smaller than a typical credit. As such, a production level PEAR
+device could be implemented in a variety of user friendly sizes. A dongle or a smart card are two possible form
+factors that would be usable and convenient. The keypad for PINs could be overlayed as an array of touch-capacitive 
+buttons on top of either form factor as well.
+
+\subsection{Limitations}
 Because the initial implementation was proof of concept, there are several ways it could be improved. Several
 vulnerabilities are also present that were discussed in Chapter~\ref{chapter:physicalsystems}.
 
@@ -253,6 +256,28 @@ While it is necessary to prevent tampering to some degree, Lemma 5 means that a 
 is not necessarily needed. The device is in its most vulnerable state after the PIN has been entered and the device is
 executing the zero knowledge proof. If an attacker has attached logic probes and other tools necessary to conduct
 many kinds of attacks, it would be very obvious to the legitimate users, who would then refuse to enter their PINs.
+
+\section{Future Work}
+The PEAR system as it exists is quite functional. However, some extensions could be done as future work to improve
+the system. 
+
+One such improvement is the concept of "transaction levels". Typically, service providers grant a user all services after
+he has logged in, regardless of the sensitivity of the requested action. For instance, a web application will require a
+user to log in before starting a new session, after which, all requests are granted. Transaction levels are the use of
+different credentials or the requiring of re-authentication upon requests for certain actions. 
+
+In a banking website 
+example, one transaction level may allow a user to perform non-destructive operations, such as checking an account
+balance. However, for destructive operations, such as making an online bill payment, a different transaction level
+would be needed.
+
+Transaction levels would be possible to implement so that a user only needed one physical PEAR device. This is
+desirable, because requiring a user to carry around multiple PEAR devices is not necessarily realistic.
+
+Properly implementing transaction levels would require addressing a number of technical challenges. First, we would 
+need an appropriate policy language to capture the behavior. Next, we would need to explore how to present the user 
+with a usable interface that abstracts the behavior adequately. Finally, we would need to consider the trade-offs in 
+usability and security that would result from applying the approaches described above.
 
 \section{Acknowledgement}
 This work was partially funded by Sypris Electronics. A paper on PEAR was published in 2010 in the SPRINGL workshop
