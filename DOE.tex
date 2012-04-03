@@ -13,12 +13,110 @@ of electricity, thus reducing cost. Not only does the smart grid help the power 
 its customers, customers can adjust their consumption habits to lower their bills as well. With the increasing cost of
 fossil fuels and the increasing energy consumption of today's consumer, reducing wasted electricity will be very useful.
 
-\includegraphics[width=400px]{images/doe_007.jpg}
+Naturally, with this increase in functionality, there is an increase of risk as well. While the power company can use
+the smart grid to smartly redirect power to where it is needed, an attacker might try to direct power away from an
+area or direct so much power to an area that the system becomes overloaded and fails.
 
-\includegraphics[width=400px]{images/doe_008.jpg}
+As a response to the increased dangers that a smart grid provides, we describe a system that is designed to allow
+for secure, yet convenient, communication and management between consumers and the utility company. Existing
+systems are leveraged, such as the ZigBee mesh network~\cite{zigbee}, which is further described below.
+One of the main things that is critical in this new system is that individual meters are able to be uniquely identified
+so billing can be done correctly, but also so no one can impersonate them. This is a perfect opportunity for PUF
+technology.
 
-\section{Implemenation}
+\section{Actors}
+For the rest of the chapter, it will be useful to discuss the different players in the smart grid scenario.
+
+\subsection{Utility Company}
+One of the major players in the smart grid scenario is that utility company. The utility company is responsible for
+generation of the electricty using techniques such as coal power, hydroelectric, wind, among others. The utility
+company is also responsible for managing the dynamic delivery of power to areas that need it.
+
+Finally, the utility company is also responsible for maintaining information on all of its customers and billing them
+appropriately.
+
+\subsection{Substations}
+Substations receive large amounts of high voltage power from the utility company. However, this power is not ready
+for end user consumption. The substation thus takes the power from and converts it to  more reasonable levels
+that is suitable for being to delivered to end users.
+
+The substation will communicate with the utility company to tell the utility how much load it is under. Depending on
+the load, it will then receive more or less power.
+
+\subsection{Smart Meters}
+A smart meter is much like a regular power meter but with some added features. Smart meters measure power as
+a normal meter, but they can typically be configured so that they can also "rewind" if a user is pumping power back
+into the grid. Additionally, smart meters have many different features which allow real time information and analytics
+about power consumption to be obtained.
+
+One of the large benefits of smart meteres is that the utility company can communicate and read them without
+necessarily sending a worker out to read the values. This is much faster and more cost effective than traditional
+power meters. This is accomplished using some sort of wireless interface. Typically, the ZigBee~\cite{zigbee}
+~\cite{aminetworking}
+wireless protocol is used and is set up so that all meters form a mesh network with each other. This allows meters
+that are not within wireless range of a substation (or some other communication center) to still talk to the substation.
+This is accomplished since each smart meter not only transmits its own data, but it also acts as a relay for other nodes
+in the mesh network.
+
+Note that smart meters have some amount of general purpose computation, but they are not very powerful. As such,
+it is necessary to optimize programs so that they can be run on the smart meters.
+
+The smart meters used in this project are produced by Landis+Gyr. They consist of two components of interest. One
+board is called the "metering board" and is responsible for measuring and recording information about the actual
+power consumption of attached devices. The other board is called the "communication board". It is responsible for
+performing the different types of communication as necessary. The two are connected over an event-based interface,
+but this interface is not encrypted. 
+
+There are 5 security levels on the smart meter, each giving a different amount of privilege to different meter controls,
+with level 0 being read only access and level 5 giving control of everything. There is a table in the smart meter which
+stores each of the corresponding keys for the levels. Communication between the utility and smart meter is encrypted
+using a random session key, which is derived from one of the 5 security keys.
+
+\section{Protocol}
+We wish to provide a protocol that allows for secure, authenticated communication between the utility company and
+smart meters, in the presence of and despite different types of adversaries.
+We leverage the use of a PUF device in conjunction with the smart meter to uniquely identify the smart meter to the
+utility company.
+
+Before describing the protocol itself, it will be helpful to discuss the information each party is expected to maintain.
+The utility company will maintain a database containing two tables, one for authentication and the other for 
+symmetric encryption keys. The authentication table will correlate a specific meter with a zero knowledge proof.
+The symmetric key table will correlate a smart meter with the five keys for the five different security levels of the meter.
+The smart meter needs to store the public key of the utility company. Both parties also need enough information about
+the mesh network to ensure that they can communicate with each other.
+
+The first thing that must be done is that the utility company must record a zero-knowledge commitment from the 
+smart meter for a specific challenge. This is illustrated in Figure~\ref{fig:doeconfig}. This step is required so that later
+in the protocol, the smart meter can execute a zero-knowledge proof to prove its identity.
+Note that this step must be done out-of-band from the mesh network, lest an adversary enter an invalid commitment.
+This could be done at manufacture time or at installation time by a technician, as long as it is a secure channel.
+
+\begin{figure}[!ht]
+\includegraphics[width=400px]{images/doe_auth_config.jpg}
+\label{fig:doeconfig}
+\caption{Enrollment of the Commitment}
+\end{figure}
+\FloatBarrier
+
+
+
+\begin{figure}[!ht]
+\includegraphics[width=400px]{images/doe_key_config.jpg}
+\label{fig:doeusage}
+\caption{Storage of the Derived Keys}
+\end{figure}
+\FloatBarrier
+
+\section{Security Considerations}
+
+\subsection{Transmission Security}
+% Discuss how we use application level security, not just the ZigBee and other protocols
+
+\section{Implementation}
 
 \subsection{Limitations}
 
 \section{Future Work}
+
+\section{Acknowledgements}
+This work was supported in part by Sypris Electronics.
