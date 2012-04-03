@@ -69,8 +69,9 @@ but this interface is not encrypted.
 
 There are 5 security levels on the smart meter, each giving a different amount of privilege to different meter controls,
 with level 0 being read only access and level 5 giving control of everything. There is a table in the smart meter which
-stores each of the corresponding keys for the levels. Communication between the utility and smart meter is encrypted
-using a random session key, which is derived from an authentication key.
+stores each of the corresponding keys for the levels. Call these keys access level keys.
+Communication between the utility and smart meter is encrypted
+using a random session key, which is derived from an encryption key.
 
 \section{Protocol}
 We wish to provide a protocol that allows for secure, authenticated communication between the utility company and
@@ -79,13 +80,18 @@ We leverage the use of a PUF device in conjunction with the smart meter to uniqu
 utility company.
 
 Before describing the protocol itself, it will be helpful to discuss the information each party is expected to maintain.
-The utility company will maintain a database containing two tables, one for authentication and the other for 
-symmetric encryption keys. The authentication table will correlate a specific meter with a zero knowledge proof.
-The symmetric key table will correlate a smart meter with the five keys for the five different security levels of the meter.
+The utility company will maintain a database containing two tables, one for zero knowledge commitments and the 
+other for 
+access level keys. The authentication table will correlate a specific meter with a zero knowledge proof.
+The access level key table will correlate a smart meter with the five keys for the five different security levels of the 
+meter. This table also stores the encryption key.
+
 The smart meter needs to store the public key of the utility company. The smart meter also maintains a "master key"
-that it generates internally using the PUF. Both parties also need enough information about
-the mesh network to ensure that they can communicate with each other. Both parties also need to share an
-authentication key, which is used to derive temporary session keys.
+that it generates internally using the PUF. 
+
+Both parties also need enough information about
+the mesh network to ensure that they can communicate with each other. Both parties also need to share the
+encryption key, which is used to derive temporary session keys.
 
 The first thing that must be done is that the utility company must record a zero-knowledge commitment from the 
 smart meter for a specific challenge. This is illustrated in Figure~\ref{fig:doeconfig}. This step is required so that later
@@ -108,15 +114,11 @@ in the style of $K_1=H(MK|1), K_2=H(MK|2)...$ so that six new keys are derived, 
 never revealed. These six keys are then
 encrypted under the public key of the utility company. All the encrypted keys as well as a zero knowledge proof
 are then sent to the utility company. The ZKPK allows the utility company to authenticate the encrypted keys before
-updating its database with the five new entries. This is detailed graphically in~\ref{fig:doeusage}.
+updating its database with the six new entries. This is detailed graphically in~\ref{fig:doeusage}.
 Figure~\ref{fig:keyderivation} graphically describes the key derivation process.
 
-\begin{figure}[!ht]
-\includegraphics[width=400px]{images/doe_key_config.jpg}
-\label{fig:doeusage}
-\caption{Storage of the Derived Keys}
-\end{figure}
-\FloatBarrier
+Note that the PUF uses an internal feedback loop, so that every invocation of the keying procedure will generate a
+different PUF response, which will in turn generate different derived keys.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/keyderivation.jpg}
@@ -125,23 +127,145 @@ Figure~\ref{fig:keyderivation} graphically describes the key derivation process.
 \end{figure}
 \FloatBarrier
 
-After the utility company has received these five keys and the authentication keys, 
+\begin{figure}[!ht]
+\includegraphics[width=400px]{images/doe_key_config.jpg}
+\label{fig:doeusage}
+\caption{Storage of the Derived Keys}
+\end{figure}
+\FloatBarrier
+
+After the utility company has received these five access level keys and the encryption key, 
 interactions between the smart meter and the utility company
-will then proceed as it currently does. That is, the smart meter and utility company will use the shared authentication
+will then proceed as it currently does. That is, the smart meter and utility company will use the shared encryption
 key to compute a temporary, symmetric session key which will be used to encrypt data that is sent between the two.
 
 Note that since the smart meter has limited computation powers, the operations above are fairly expensive. This
 is acceptable though, since the enrollment and keying operations will be done very infrequently. If they need to
 be re-run, this can be planned ahead for off peak times, such as in early morning and consumers can be notified
 of this. The symmetric session key is frequently used, but symmetric encryption is much less computationally expensive
-than asymmetric encryption
+than asymmetric encryption.
+
+Additionally, note that the utility company signs any correspondence during the enrollment or keying stages.
+This allows the smart meter to validate the signature and thus ensure that commands are actually coming
+from the utility company.
 
 \section{Security Considerations}
+Because there are several different ways that the system could potentially be compromised and the gravity that
+such a compromise could have, it is necessary to consider and discuss the different possible security issues. Several
+different security issues are discussed below.
 
-\subsection{Transmission Security}
+Note that a distinction is made between the set of initial enrollment and keying operations that we defined versus
+the existing system of encryption using session keys.
+
+\subsection{Meshnet Transmission Security}
 % Discuss how we use application level security, not just the ZigBee and other protocols
+One potential problem is that when data is being transmitted among the meshnet, rather than relaying, a node
+may attempt to read the data in transit. This would be considered a man in the middle attack. There are encryption
+layers imposed by the ZigBee protocol and other transmission protocols, but it stands to reason that if a node was
+malicious, it might be able to crack these layers.
+
+As such, we add another layer of security at the application layer. Data is encrypted under the public key of the utility
+company during the keying operation. As such, an adversary would be required to compromise the public key
+algorithm, which is considered computationally infeasible. A more likely attack would be to compromise the private key
+of the utility company. This possibility is considered separately below.
+
+Data being transmitted using the session key between the utility company and smart meter is encrypted under a
+symmetric key algorithm, EAX', which is a variant of AES that is defined under ANSI standard 
+C12.22.~\cite{ansi1222}~\cite{eax} As such, if an adversary would have to be able to defeat this algorithm to make
+any progress. An attack has been published on EAX' in~\cite{eaxflaw}, but this attack is new and may not be effective
+enough to compromise the total integrity of the communication.
+
+The system is also resilient against replay attacks in this situation, since both timestamps and nonces are incorporated.
+As such, any replay will have invalid timestamps and nonces, so will not be valid.
+
+There is a risk of a denial of service if an active adversary simply drops all traffic, but this is considered an acceptable
+risk.
+
+\subsection{Compromised Smart Meter Key or Encryption Key Compromise}
+It is possible that somehow, one of the five smart meter keys or the encryption key used to derive session keys
+could be compromised. This might happen if an employee copies a key from the database or for any other number
+of reasons. Even if this happens, security is only temporarily effected.
+
+Recall that the master key generated from the PUF is passed through a one way, key derivation process. As such,
+even if one of the derived keys (the smart meter keys or the authentication key) are compromised, the master key
+is still secure. To re-secure the system, the keying procedure will then be re-run, which will provide a brand new set
+of smart meter keys and authentication key.
+
+This procedure is essentially analogous to a re-key request, even if there is no compromise.
+
+Note that this case is separate from the databases containing this information, which is considered below.
+
+\subsection{Utility Database Compromise - Commitment Table}
+If the commitment table in the utility database is compromised, the results will not be catastrophic. Since the committed
+values for the ZKPK do not leak any information, the adversary will not be able to impersonate any users or garner
+any new information about the underlying authentication key.
+
+Worst case is that the adversary could change the committed values in the database. This would essentially create a
+denial of service attack. However, he could also update the database with his own commitment value and place
+himself between the smart meter and the utility company as an active MITM and then impersonate the smart
+meter. 
+
+Since he would be able to authenticate to the utility server, he could thus send false data about consumption or 
+whatever he wanted. This threat could be dealt with by making sure that the database is very secure
+and that the entries are  carefully monitored and any updates are only allowed during the keying operation.
+
+Note that in this case, the adversary would not be able to impersonate the utility company to the smart meter,
+since he would not know the private key of the uility, which is necessary to sign the various messages.
+
+This compromise would have no effect on the messages being sent under the temporary session key, since
+there is no need for the authentication key during that stage.
+
+\subsection{Utility Database Compromise - Key Tables }
+It is possible that the database storing the smart meter access level keys or encryption key could be compromised. 
+If these keys were recovered, this would be a bad thing, since the adversary could then access the sensitive commands
+of the smart meter or read the interim traffic between the two parties.
+
+However, this is not necessarily a real danger, since the keys are encrypted under the utility's private key before being
+put into the database. As such, the adversary would only recover ciphertext. Assuming he cannot break the public
+key algorithm, the data will remain secure.
+
+There is a possibility that if the database was compromised, the adversary might have been able to recover a key
+as it is being decrypted in memory and record that. As such, it is wise to execute a re-keying operation for any meters
+whose information was stored in that database.
+
+\subsection{Utility Company Private Key Compromise}
+One of the worst case scenarios is that the private key of the utility would become compromised. As previously
+described, the smart meter's master key would stay secure, since it is never transmitted.
+
+However, all smart meter access level keys and encryption key could potentially be compromised, since the adversary
+would record all traffic during the keying operation and use the private key to recover the keys.
+
+Once those keys were recovered, it would be trivial for the adversary to communicate with the smart meter to
+execute sensitive commands, request re-key operations, or whatever the adversary desired.
+
+To recover from this, the old private key would first need to be discarded. Following that, the new public key would
+need to be installed in every single meter in the grid. This would have to be done by hand, since any network
+transmissions could not be trusted. Additionally, every smart meter would then need to execute the keying operation
+so that the utility company could then update its database with the new values.
+
+These procedures to recover would be very expensive and time consuming. As such, it is critical that the private key
+never becomes compromised. Key management is a difficult, open problem that needs to be solved.
+
+\subsection{Smart Meter Physical Security}
+Since smart meters are physical systems, it is necessary to discuss and consider some of the physical threats they face.
+
+
+The smart meters are actually designed to be fairly tamper resistant. If the external glass shell is removed without the
+use of a technician's key, a signal is sent over the network to alert the utility company. After that happens, the utility
+company can then flag any future traffic as suspicious and send a technician out to investigate and fix the meter.
+Regardless, improving the tamper resistance of smart meters would be a good step to take.
+
+Because the smart meter is doing cryptographic operations, it could potentially be vulnerable to power analysis
+attacks as well as monitoring of emitted signals. To resolve this, some sort of potting mechanism, power filtering,
+and shielding should be implemented. 
+
+As previously described, the PUF is extremely resilient against tampering, so it will likely not be a problem.
+Incorporating all the different components on a system on chip will be a good step towards security, since this will
+hide all the internal buses as well as protect the areas with sensitive information stored on them.
 
 \section{Implementation}
+
+
 
 \subsection{Limitations}
 
