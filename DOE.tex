@@ -298,13 +298,24 @@ as would be used in the actual field. Figure~\ref{fig:doeimpl} represents this g
 
 We used the Xilinx Spartan-6 Embedded Development board for our FPGA platform. This board was useful since we 
 were able to incorporate an existing PUF design on it. Additionally, we were able to use the Microblaze soft core
-microprocessor which Xilinx provides. As mentioned in Chapter~\ref{chapter:pear} and Chapter~\ref{chapter:rok}
+microprocessor which Xilinx provides. As mentioned in Chapter~\ref{chapter:pear} and Chapter~\ref{chapter:rok},
+it is a good idea to include the microprocessor on the same chip as the PUF device. This allows buses sending
+sensitive information, such as PUF responses, to be better protected against adversaries. Again, inserting logic
+probes into the inner parts of the chip would most likely disrupt the PUF, so any results obtained about the PUF would
+thus be useless.
 
-
+For the smart meter PC, we created an application in C++ which uses standard networking libraries to communicate
+with the utility PC. The smart meter PC interacts with the PUF board via a serial port connection. The PC also contains
+drivers and code to communicate with the actual smart meter over an optical port interface.
 
 \subsection{Limitations}
+Our approach has many different components that are not necessarily going to be present in an actual, deployed
+system. For instance, the fact that the PUF board and the smart meter PC are separate from the smart meter is
+a major issue that would not work in the field. 
 
-\section{Future Work}
+In the future, it would be better to integrate all the control circuitry,
+PUF device, and metering circuitry into a single chip, such as a large FPGA or even an ASIC design. In this way, only
+one chip would need to be installed into the smart meter, rather than the large amount of devices currently needed.
 
 \section{Acknowledgements}
 This work was supported in part by Sypris Electronics.
