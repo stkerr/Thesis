@@ -220,4 +220,15 @@ against these threats.~\cite{tempest} Some of the easily implementable changes t
 around devices. Suggestions presented also include signal filtering such that certain frequencies are attenuated or completely removed
 from emission.
 
-%\subsection{Signal Attenuation}
+\subsection{Tampering}
+If a system is not protected, tampering with the system itself is one of the easiest attacks for an adversary to execute.
+He can attach logic probes or some device to record traffic being sent over signal buses to learn sensitive information.
+He could also tamper with certain portions of the system so that error handling and recovery routines were triggered,
+which might be easier to exploit in some way.
+
+There are many different techniques to deal with physical tampering of a system. One of these includes potting, which 
+involves sealing all components in a type of epoxy, so that no wires are exposed. Another technique would be to
+put the sensitive components in an enclosure that had some sort of alarm on it. When the enclosure was opened, an
+authority would be notified, who could then deal with the tampering. Physical tampering is a very large problem
+and these are just a few techniques to address it, but every system designer should consider how to protect his
+system from tampering.

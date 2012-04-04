@@ -8,11 +8,59 @@
 \chapter{Introduction}
 \label{chapter:intro}
 
+There are many different computer systems in the world today. Many of these systems are general purpose computing
+systems, such as consumer desktops and laptops. However, there are many more systems with a very specific use
+and that interact with the world in a physical way. Examples of this include sensor arrays, surveillance systems,
+or utility pipelines. These are called "physical systems".
+These systems incorporate a large amount of computation to perform their jobs, but their main tasks accomplished
+by interacting with the physical world in some way. 
+
+These physical systems are beginning to become more and more complex. Originally, these systems computational
+abilities were very limited, maybe being restricted to a few hardcoded operations, potentially only accessible by
+an on site technician. Today, many of these systems have a much greater computing capacity, have more
+dynamic capabilities, and, especially, are more connected to some sort of network, such as the Internet.
+These improvements have allowed for much greater control over systems, better remote interfacing, and greater
+efficiency.
+
+With all the improvements however also comes security risks. Suddenly, physical systems are vulnerable to malicious
+control from an adversary connected over the internet. Besides just a networked adversary, it is possible that
+malicious code, such as a virus, might infect the system. Due to the increased processing power and more 
+generalized computing resources, these viruses would have a greater attack surface and more opportunities to
+compromise such a system.
+
+One of the main problems facing physical systems is that they have difficulty being identified uniquely. That is,
+when someone is communicating remotely, they  are not completely sure that the system they are communicating
+with is authentic. An attacker might have made a copy of the device and could be impersonating the device. 
+Alternatively, the device could be a counterfeit. 
+What is needed is some way to ensure that the device is actually the intended device.
+
+A novel technology called Physically Unclonable Function (PUF) provides the sort of device identification that is needed
+to solve the previous issue. A PUF is a device that can be used to generate a response that is unique to a given device.
+PUFs are made by leveraging small inconsistencies in the manufacturing process. As such, it is impossible to
+duplicate a PUF. Since the PUF cannot be duplicated, if a device ever returns the expected response from its PUF,
+the other party can be confident that the device is the intended device.
+
 % Discuss the structure of the thesis
 The rest of the thesis is structured as followed. 
-Chapter ~\ref{chapter:physicalsystems} describes physical systems and their nature, including several of the difficulties that are involved with them. 
-Chapter ~\ref{chapter:cryptographyoverview} provides some of the necessary cryptography background needed. 
+Chapter ~\ref{chapter:physicalsystems} describes physical systems and their nature, including several of the difficulties that are involved with them, in more depth. 
+
+Chapter ~\ref{chapter:cryptographyoverview} provides some of the necessary cryptography background needed for
+understanding the rest of the paper.
+
 Chapter ~\ref{chapter:pufoverview} introduces PUF technology and creates an initial connection to physical systems. 
-Chapters ~\ref{chapter:rok},  ~\ref{chapter:pear}, and ~\ref{chapter:doe} each describe an applications of PUF technology as it incorporated into physical systems. These applications each demonstrate the use of PUF as a way of resolving the issues facing physical systems. 
-Chapter ~\ref{chapter:conclusion} draws final conclusions and presents
-closing thoughts.
+Several different PUF architectures are presented as well as a discussion of some implementation issues.
+
+Chapters~\ref{chapter:rok},~\ref{chapter:pear}, and~\ref{chapter:doe} each describe an applications of PUF 
+technology as it incorporated into physical systems. These applications demonstrate the use of PUF as a way of 
+resolving the issues facing physical systems. 
+
+Chapter~\ref{chapter:rok} describes a project called Read Once Keys. These are keys that once being read are
+destroyed and are irrecoverable. The PUF device is used in this case as a way of providing trusted execution.
+
+Chapter~\ref{chapter:pear} describes a project called Physically Enhanced Authentication Ring. This project uses
+a PUF to combat a potentially compromised communication channel, such as when a keylogger is installed.
+
+Chapter~\ref{chapter:doe} describes a project regarding the smart grid and smart meters. A PUF is incorporated
+into a smart meter and is used to securely authenticate with a utility company, in spite of potential threats.
+
+Chapter ~\ref{chapter:conclusion} draws final conclusions and presents closing thoughts.
