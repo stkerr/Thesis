@@ -29,7 +29,7 @@ For the rest of the chapter, it will be useful to discuss the different players 
 
 \subsection{Utility Company}
 One of the major players in the smart grid scenario is that utility company. The utility company is responsible for
-generation of the electricty using techniques such as coal power, hydroelectric, wind, among others. The utility
+generation of the electricity using techniques such as coal power, hydroelectric, wind, among others. The utility
 company is also responsible for managing the dynamic delivery of power to areas that need it.
 
 Finally, the utility company is also responsible for maintaining information on all of its customers and billing them
@@ -41,7 +41,8 @@ for end user consumption. The substation thus takes the power from and converts 
 that is suitable for being to delivered to end users.
 
 The substation will communicate with the utility company to tell the utility how much load it is under. Depending on
-the load, it will then receive more or less power.
+the load, it will then receive more or less power. It also acts as a sort of "collector" node for different smart meters.
+Smart meters will communicate with the substation which will then relay the data back to the utility company.
 
 \subsection{Smart Meters}
 A smart meter is much like a regular power meter but with some added features. Smart meters measure power as
@@ -72,6 +73,24 @@ with level 0 being read only access and level 5 giving control of everything. Th
 stores each of the corresponding keys for the levels. Call these keys access level keys.
 Communication between the utility and smart meter is encrypted
 using a random session key, which is derived from an encryption key.
+
+\section{Physical Systems}
+The actors above are clearly examples of physical systems. All three heavily interact with the environment around them
+to fulfill the power needs of consumers.
+
+The utility company as a whole might not be considered a physical system, but parts of it will definitely be considered
+examples of deployed physical systems. The utility must manage the production of electricity by its generators as well
+as well as manage the communication of commands to the various smart meters, via the mesh network.
+
+Substations could also be considered deployed physical systems, since they perform a large amount of interaction
+with the physical world to transform the power from the utility company into power that is usable by consumers.
+They additionally must take a large amount of input from both consumer smart meters and the utility to decide how
+to manage the power resources in a dynamic way.
+
+The smart meters are deployed physical systems. A large part of the smart meters job is to record and analyze
+the power usage of the home or building it is attached to. This requires interaction with the physical world. However,
+the smart meter is also clearly networked, since it can have so much interaction between other smart meters (in the 
+concept of the mesh network) and the utility company.
 
 \section{Protocol}
 We wish to provide a protocol that allows for secure, authenticated communication between the utility company and
@@ -249,7 +268,6 @@ never becomes compromised. Key management is a difficult, open problem that need
 \subsection{Smart Meter Physical Security}
 Since smart meters are physical systems, it is necessary to discuss and consider some of the physical threats they face.
 
-
 The smart meters are actually designed to be fairly tamper resistant. If the external glass shell is removed without the
 use of a technician's key, a signal is sent over the network to alert the utility company. After that happens, the utility
 company can then flag any future traffic as suspicious and send a technician out to investigate and fix the meter.
@@ -264,6 +282,23 @@ Incorporating all the different components on a system on chip will be a good st
 hide all the internal buses as well as protect the areas with sensitive information stored on them.
 
 \section{Implementation}
+For the proposed scenario and protocol, we developed a proof of concept implementation. In the interest of time and
+difficulty, rather than creating an entire smart meter from scratch, we opted to implement the 
+PUF inside an FPGA and perform some of the network communication and computations on a PC, the smart meter
+PC, which was connected to another PC, which is modelling the utility company. The smart meter PC is connected
+to an actual smart meter via an optical port. The smart meter is also connected to the utility PC via a ZigBee interface,
+as would be used in the actual field. Figure~\ref{fig:doeimpl} represents this graphically.
+
+\begin{figure}[!ht]
+\includegraphics[width=400px]{images/doe_impl.jpg}
+\label{fig:doeimpl}
+\caption{Prototype Implementation of Smart Grid Project}
+\end{figure}
+\FloatBarrier
+
+We used the Xilinx Spartan-6 Embedded Development board for our FPGA platform. This board was useful since we 
+were able to incorporate an existing PUF design on it. Additionally, we were able to use the Microblaze soft core
+microprocessor which Xilinx provides. As mentioned in Chapter~\ref{chapter:pear} and Chapter~\ref{chapter:rok}
 
 
 
