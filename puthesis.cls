@@ -146,7 +146,7 @@
 \DeclareOption{nononchapterblankpages}{\nononchapterblankpages}
 %
 \newboolean{@@chapterblankpages}
-\setboolean{@@chapterblankpages}{true}
+\setboolean{@@chapterblankpages}{false}
 \newcommand{\chapterblankpages}{\setboolean{@@chapterblankpages}{true}}
 \newcommand{\nochapterblankpages}{\setboolean{@@chapterblankpages}{false}}
 \DeclareOption{chapterblankpages}{\chapterblankpages}
