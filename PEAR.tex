@@ -70,8 +70,6 @@ post or given over the phone to the user. The key point is that they are not del
 used for the rest of the protocols (such as the Internet), since if an attacker is able to recover these values, he would
 be able to make a fraudulent account.
 
-
-
 \begin{figure}[!ht]
 \includegraphics[width=500px]{images/auth.jpg}
 \label{fig:pearauthentication}
@@ -108,6 +106,50 @@ be able to make a fraudulent account.
 }
 \end{table}
 \FloatBarrier
+
+\section{Additional Usage Scenarios}
+In addition to allowing authentication over an insecure channel as originally intended, PEAR also provides two other
+beneficial usage scenarios.
+
+\subsection{Unlinkability Property}
+Currently, users may be enrolled under several service providers for various reasons. Each service provider might
+hold some pieces of sensitive information about the user, but not necessarily every piece of sensitive information.
+However, if the two service providers were to collude, they would be able to learn a lot more about an individual
+user, which is not desirable.
+
+\begin{figure}[!ht]
+\includegraphics[width=500px]{images/pearpics.jpg}
+\label{fig:pearunlinkability}
+\caption{The unlinkability property of PEAR}
+\end{figure}
+\FloatBarrier
+
+As such, it is desirable to only give information out in a way such that service providers cannot collude to violate
+a user's privacy. The PEAR system provides this capability. When enrolling with two different service providers,
+the user would use a different screen name with each and send a commitment. Because the commitments do not
+leak any information (and the website IDs and user IDs are different), even if the service providers colluded, they would
+not be able to determine which pair of accounts belong to the same user very easily.
+
+\subsection{Organizational Anonymity}
+Another issue that frequently arises is that users may need to contact a party outside of their organization, but
+they do not want to be individually identified; they wanted to be recognized as a university member only. For instance,
+a Purdue student may wish to access the ACM digital library. She does not want to register with the library as an
+individual; she simply wants access granted due to her Purdue affiliation.
+However, the university, or whoever the authority is, still needs to maintain some sort of auditing capability.
+
+PEAR is able to fulfill this use case as well. Users will use a PEAR device to enroll under the authority (the university
+in the previous example). When they desire some service (such as digital library access), users will use PEAR to 
+authenticate to the authority, who will then authenticate to the service provider on their behalf.
+
+\begin{figure}[!ht]
+\includegraphics[width=500px]{images/pearorgnaizational.jpg}
+\label{fig:pearorganizational}
+\caption{The organizational anonymity aspect of PEAR}
+\end{figure}
+\FloatBarrier
+
+In this way, users remain anonymous to the outside world and external service providers. However, if a problem occurs,
+the authority can still hold users accountable for any actions they took.
 
 \section{Security Considerations}
 Several lemmas are presented below which address various different security aspects of the PEAR system.
