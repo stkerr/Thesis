@@ -6,7 +6,7 @@ It is desirable for a user to be sure that the device that he is using is authen
 of forgeries or possible communication tampering, a user might be suspicious that the system is the system it claims
 to be. A device called a Physically Unclonable Function, or PUF, is a technology that remedies this problem.
 
-A PUF device provides a unique challenge-response capability. That is, when two PUFS are provided the identical
+A PUF device provides a unique challenge-response capability. That is, when two PUFs are provided the identical
 challenge, they will each produce unique responses. In this way, a PUF, and the system it contains, 
 can be identified by the response value it generates to a specific challenge. A more formalized definition of
 this relationship is given below.
@@ -18,7 +18,7 @@ R_1 \neq R_2
 \end{align*}
 
 This relationship can thus be used to bind certain information to a given system by adding a PUF
-to it. That is, when a system produces a specific response, it is possible to unique identiy that 
+to it. That is, when a system produces a specific response, it is possible to unique identify that 
 specific system from another.
 
 \section{Types of PUFs}
@@ -51,7 +51,7 @@ as well as the propagation delay of every individual inverter, the output
 frequency of one RO may be different from another RO. In Figure ~\ref{fig:ro},
 this output signal corresponds to the signal marked $Q$.
 
-When used as part of a PUF, the unique behaviour of an RO will be examined.
+When used as part of a PUF, the unique behavior of an RO will be examined.
 Consider again the 3 stage RO as shown in Figure \ref{fig:ro}. All three
 inverter gates are assumed to have the same propagation delay and the
 interconnecting wires are assumed to impose a negligible delay. However, in
@@ -64,7 +64,7 @@ manufacturing line, they will generate a slightly different output frequency.
 
 The slightly different output frequencies of two ring oscillators forms the basis
 of randomness for the Ring Oscillator PUF. Because the output frequencies of the
-ROs cannot be predicted, their actual frequency at runtime gives a way to uniquely
+ROs cannot be predicted, their actual frequency at run time gives a way to uniquely
 identify the individual PUF that contains them. In Figure \ref{fig:ropuf}, a more
 detailed diagram of a PUF based off of ring oscillators is presented.
 
@@ -102,7 +102,7 @@ incorporation into existing FPGA designs or through the production of a custom A
 Figure~\ref{fig:butterfly} shows a circuit example of a butterfly PUF and how it might be
 designed.
 
-The Butterfly PUF works by tying the output of two D flip flops to each other's inputs. By applying
+The Butterfly PUF works by tying the output of two D flip flops to each others inputs. By applying
 the CLR signal to one flip flop and the PRE signal to the other flip flop, the circuit will enter an
 undefined state. It will eventually go to one of two defined states (0 or 1). The circuit will typically
 settle in the same state, which forms the basis for the PUF response.
@@ -142,7 +142,7 @@ the stability and error rates of PUF. As the author worked primarily with RO PUF
 otherwise noted, this section refers to RO PUFs.
 
 The basic use case that should be examined is when a PUF is executed twice in the same
-environment; that is, temperature, humidty, and other environmental factors are constant.
+environment; that is, temperature, humidity, and other environmental factors are constant.
 For the RO PUF design in Figure \ref{fig:ropuf}, error rates can be reduced by increasing
 the time that the ring oscillators are executed. In this way, the faster ring oscillator's
 counter will clearly dominate the slower ring oscillator's counter. If the execution time
@@ -155,7 +155,7 @@ to become apparent.
 % temperature
 A source of error that can be introduced is a change in temperature. Circuits will run 
 either faster or slower as temperature changes, due to the changing resistance of the
-internal components. Note that this is not a behaviour specific to PUFs, but electronics
+internal components. Note that this is not a behavior specific to PUFs, but electronics
 in general. As such, it is important to consider the effect of temperature on PUF devices.
 Work in ~\cite{puftemp} presents detailed, empirical studies of temperature's effect on
 PUFs.
@@ -215,7 +215,7 @@ to the ring oscillator design previously described unless otherwise noted.
 There is a class of attacks called differential power analysis, \textit{DPA}, that needs to be considered
 for PUFs. This involves monitoring the power consumption of a circuit during its execution. It is then possible
 to deduce what bits of data are being processed at a given time. For example, if the floating point processor
-takes a considerable amount of power in a microcontroller, an attacker could monitor the power during execution.
+takes a considerable amount of power in a micro controller, an attacker could monitor the power during execution.
 When he saw the power usage spike, he could infer that a floating point operation was taking place. This attack
 is detailed in several papers and a fairly good overview is given in the book \cite{securityengineering}.
 
@@ -227,7 +227,7 @@ power differences needed for DPA.
 % Tampering
 Tampering with the PUF itself is a vulnerability that needs to be considered. An attacker may attempt
 to reverse engineer the PUF so that he could model and impersonate it. This would involve measuring
-the distances between wires, capacitances, and propagation delays of the various elements of the PUF.
+the distances between wires, capacitance values, and propagation delays of the various elements of the PUF.
 However, these elements are so small (nanometers) that the invasive techniques for measuring them
 would likely alter their qualities, so any measurements taken would not be usable for impersonating
 the original PUF. As such, tampering can destroy a PUF and its usability, but the risk of being able
@@ -257,7 +257,7 @@ key}, which is installed in the TPM at manufacture time.
 
 One area where TPMs and PUFs differ is that TPMs only have their one secret endorsement key to act
 as the key to all operations. If this is ever compromised, such as when it is being burned in at
-manufacturing time, all TPM security is lost. In contrast, PUFs behaviour is characteristic of the challenge
+manufacturing time, all TPM security is lost. In contrast, PUFs behavior is characteristic of the challenge
 provided. If a sufficiently large key space is chosen, such as 128 bits, then it is unrealistic that an
 attacker could ever model the entire response space, which would encompass $2^{128}$ possible choices.
 

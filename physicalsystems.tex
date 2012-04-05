@@ -13,8 +13,8 @@ channel. In contrast, a physical system must be able
 to account for multiple different input sources, especially input types that might not have been intended. 
 A physical system might receive input directly from end users, networking devices, sensors. A physical
 system could also consider environment changes as a sort of secondary, unintended input. For example,
-the device's power may fluctuate, potentially changing the behaviour of internal circuits. A temperature change
-could cause the sensitivity of a certain component to increase or decrease, which will in turn alter the behaviour
+the device's power may fluctuate, potentially changing the behavior of internal circuits. A temperature change
+could cause the sensitivity of a certain component to increase or decrease, which will in turn alter the behavior
 of the system. These are but a few examples of the various factors that a physical system must be properly
 designed to handle and account for.
 
@@ -50,7 +50,7 @@ using some sort of radio frequency device.
 Standalone physical systems are more straightforward to deal with in a lot of cases. The garage opener example has
 a very specific use case, defined inputs (control pad and remote control) and defined outputs (open or close the garage
 door). These qualities typically do not change nor are updated often, if ever. As such, it is typically easy to create a sort
-of state diagram to model the behaviour of standalone physical systems.
+of state diagram to model the behavior of standalone physical systems.
 
 % Device in the field that communicates back
 \subsection{Deployed Physical Systems}
@@ -78,7 +78,7 @@ command and control element from the network connection.
 Peripheral physical systems are characterized by the fact that they not only require interaction with the physical world, but
 also with other physical systems or with a remote connection. Because of this, it is very difficult to model the system, since
 there are a very large number of ways that the other communicating party could potentially behave, in addition to any difficulties
-involved with modelling the physical inputs themselves. 
+involved with modeling the physical inputs themselves. 
 
 % Describe the coming sections of the paper
 
@@ -131,7 +131,7 @@ service attacks may include inputting erroneous data, which may crash or slow th
 that the physical system resides in, such that it is not useful. For instance, an attacker might put a heating element near a thermometer,
 which would essentially mean the system is unusable for its intended purpose.
 
-As far as defences against these types of attacks go, a first step is usually to ensure that the system is protected against a reasonable
+As far as defenses against these types of attacks go, a first step is usually to ensure that the system is protected against a reasonable
 amount of tampering. This could include protective cases, placing the system behind a fence, or having a guard present. As mentioned
 previously, proper maintenance can also be helpful, to prevent an attacker from manipulating and disturbing the surrounding
 environment.
@@ -184,15 +184,15 @@ before every message to identify itself. If that ID is always the same, an attac
 that; he does not need to actually know the plaintext version of the ID to impersonate the sending party.
 
 This type of attack can be remedied by ensuring that every execution of a protocol is unique. This is done through the use of
-timestamps or "nonce" values, which are randomly chosen, one time use values. Then, if an attacker tried to replay previous
-communications, the attack would fail since the timestamp or the nonce value would not match. So in the example above, the
+time stamps or "nonce" values, which are randomly chosen, one time use values. Then, if an attacker tried to replay previous
+communications, the attack would fail since the time stamp or the nonce value would not match. So in the example above, the
 sender might encrypt his ID number concatenated with the current time. Then, an attacker would not be able to re-use any
 communications he captures in the future.
 
 % Signals
 \subsection{Signals Injection}
 Due to the nature of electronics, physical systems are susceptible to external signals being directed at them. If an electric or 
-magnetic field is directed at certain elements of internal circuitry, it is possible to alter the behaviour of those circuits. An attacker
+magnetic field is directed at certain elements of internal circuitry, it is possible to alter the behavior of those circuits. An attacker
 can potentially bombard a physical system in some way to elicit a response from the device.
 
 An example of this type of signal injection was shown in the Cold War with 'The Thing'.~\cite{thing} In 1945, a Soviet made Seal of the 
@@ -203,9 +203,9 @@ feature, but it is important to be aware of this danger when designing physical 
 
 Another example is disruption of GPS signals. This typically occurs because radio frequency signals are using the same wavelengths as
 GPS signals. GPS signals are usually weaker than RF signals, so the RF signals dominate and drown out the GPS signals. ~\cite{gpsdisruption} 
-was delivered in 2001 and details some of these risks and defences associated with GPS interference, both unintentional and intentional.
+was delivered in 2001 and details some of these risks and defenses associated with GPS interference, both unintentional and intentional.
 
-To mitigate signal injection, it is important that system designers consider and plan for signal injection attacks. Defences against this could
+To mitigate signal injection, it is important that system designers consider and plan for signal injection attacks. Defenses against this could
 include shielding equipment against magnetic and electrical fields or using multiple frequencies and receivers when possible~\cite{gpsdisruption}.
 These are just some techniques to defend against the signal injection threat which must be considered.
 
@@ -215,7 +215,7 @@ normal operation, many devices give off electromagnetic and radio signals, at le
 examples where it is possible to recreate what is on a user's CRT or LCD computer monitor by recording the emissions of the monitor
 from a far, using a process known as "Van Eck phreaking".~\cite{monitor}~\cite{lcds}
 
-NATO created a program called TEMPEST to investigate and report on the risks associated with signal emissions and defences
+NATO created a program called TEMPEST to investigate and report on the risks associated with signal emissions and defenses
 against these threats.~\cite{tempest} Some of the easily implementable changes they suggest are to put electromagnetic shielding
 around devices. Suggestions presented also include signal filtering such that certain frequencies are attenuated or completely removed
 from emission.

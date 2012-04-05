@@ -8,6 +8,7 @@ There has been a move recently towards the design and implementation of what is 
 grid is an electrical power grid which can gather information about the meters, houses, and consumers of
 electricity that are attached to it.
 
+
 By gathering information from a smart grid, a power company can more efficiently manage its production and delivery
 of electricity, thus reducing cost. Not only does the smart grid help the power company, but by providing analytics to
 its customers, customers can adjust their consumption habits to lower their bills as well. With the increasing cost of
@@ -50,7 +51,7 @@ a normal meter, but they can typically be configured so that they can also "rewi
 into the grid. Additionally, smart meters have many different features which allow real time information and analytics
 about power consumption to be obtained.
 
-One of the large benefits of smart meteres is that the utility company can communicate and read them without
+One of the large benefits of smart meters is that the utility company can communicate and read them without
 necessarily sending a worker out to read the values. This is much faster and more cost effective than traditional
 power meters. This is accomplished using some sort of wireless interface. Typically, the ZigBee~\cite{zigbee}
 ~\cite{aminetworking}
@@ -185,7 +186,7 @@ malicious, it might be able to crack these layers.
 
 As such, we add another layer of security at the application layer. Data is encrypted under the public key of the utility
 company during the keying operation. As such, an adversary would be required to compromise the public key
-algorithm, which is considered computationally infeasible. A more likely attack would be to compromise the private key
+algorithm, which is considered computationally unfeasible. A more likely attack would be to compromise the private key
 of the utility company. This possibility is considered separately below.
 
 Data being transmitted using the session key between the utility company and smart meter is encrypted under a
@@ -194,8 +195,8 @@ C12.22.~\cite{ansi1222}~\cite{eax} As such, if an adversary would have to be abl
 any progress. An attack has been published on EAX' in~\cite{eaxflaw}, but this attack is new and may not be effective
 enough to compromise the total integrity of the communication.
 
-The system is also resilient against replay attacks in this situation, since both timestamps and nonces are incorporated.
-As such, any replay will have invalid timestamps and nonces, so will not be valid.
+The system is also resilient against replay attacks in this situation, since both time stamps and nonces are incorporated.
+As such, any replay will have invalid time stamps and nonces, so will not be valid.
 
 There is a risk of a denial of service if an active adversary simply drops all traffic, but this is considered an acceptable
 risk.
@@ -229,7 +230,7 @@ whatever he wanted. This threat could be dealt with by making sure that the data
 and that the entries are  carefully monitored and any updates are only allowed during the keying operation.
 
 Note that in this case, the adversary would not be able to impersonate the utility company to the smart meter,
-since he would not know the private key of the uility, which is necessary to sign the various messages.
+since he would not know the private key of the utility, which is necessary to sign the various messages.
 
 This compromise would have no effect on the messages being sent under the temporary session key, since
 there is no need for the authentication key during that stage.
@@ -285,7 +286,7 @@ hide all the internal buses as well as protect the areas with sensitive informat
 For the proposed scenario and protocol, we developed a proof of concept implementation. In the interest of time and
 difficulty, rather than creating an entire smart meter from scratch, we opted to implement the 
 PUF inside an FPGA and perform some of the network communication and computations on a PC, the smart meter
-PC, which was connected to another PC, which is modelling the utility company. The smart meter PC is connected
+PC, which was connected to another PC, which is modeling the utility company. The smart meter PC is connected
 to an actual smart meter via an optical port. The smart meter is also connected to the utility PC via a ZigBee interface,
 as would be used in the actual field. Figure~\ref{fig:doeimpl} represents this graphically.
 
@@ -317,5 +318,5 @@ In the future, it would be better to integrate all the control circuitry,
 PUF device, and metering circuitry into a single chip, such as a large FPGA or even an ASIC design. In this way, only
 one chip would need to be installed into the smart meter, rather than the large amount of devices currently needed.
 
-\section{Acknowledgements}
+\section{Acknowledgments}
 This work was supported in part by Sypris Electronics.

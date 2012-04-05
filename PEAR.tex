@@ -5,16 +5,16 @@
 
 \section{Overview}
 One problem that is present when using computers is that users typically are not aware of the security of the system
-they are using. For instance, an attacker could have installed a key logger on a user's system to harvest every username
+they are using. For instance, an attacker could have installed a key logger on a user's system to harvest every user name
 and password they have. Even with the best security systems on the machine in place, if the attacker is able to capture
 a user's keystrokes, the other security is moot. 
 
 A way to prevent this type of attack is by using an external device or an alternate channel to enter sensitive information,
-such as passwords or credit card numbers. In this way, if a keylogger or the original system is compromised, the attacker
+such as passwords or credit card numbers. In this way, if a key logger or the original system is compromised, the attacker
 will not be able to recover those passwords, credit cards, or other sensitive information.
 
 PEAR, or Physically Enhanced Authentication Ring, was designed to counteract this key logger threat to a system. In addition
-to defending against keyloggers specifically, it increases security in general because it is the second part of a "two factor
+to defending against key loggers specifically, it increases security in general because it is the second part of a "two factor
 authentication" system. It also is a physical system, specifically a peripheral physical system, since it incorporates its
 own processing and interacts with the user's normal computer system. Thirdly, the PEAR system incorporates a PUF device,
 so it is a good example of when PUF technology is useful.
@@ -22,7 +22,7 @@ so it is a good example of when PUF technology is useful.
 From a high level perspective, a PEAR device is a device consisting of a PUF, a keypad, and some supporting circuitry. When
 a user wishes to log on to a given service, rather than using the keyboard for a password, he enters a 4 digit PIN on the PEAR
 device. The PEAR device then executes the PUF and then initiates a zero-knowledge proof of knowledge with the service
-provider. Note that no sensitive data is actually input to the PC, which potentially has a keylogger. Any data that the PC
+provider. Note that no sensitive data is actually input to the PC, which potentially has a key logger. Any data that the PC
 is requested to ferry between the PEAR device and the service provider is encrypted, so recording this data does not reveal
 any information.
 
@@ -243,17 +243,17 @@ Impersonation is another threat that must be considered; it is unacceptable if a
 the service provider or as a user.
 
 Lemmas 4 and 5 discuss the threat of impersonation. Simple brute force impersonation of a user to a service
-provider would require defeating a zero knowledge proof, which is computationally infeasible. If the attacker
+provider would require defeating a zero knowledge proof, which is computationally unfeasible. If the attacker
 was able to steal the physical device, he would be able to execute the zero knowledge proof, assuming he could
 guess the user's PIN. If a brute force attack was used, the service provider would easily be able to detect it.
 
 \section{Implementation}
 From a high level view, Figure~\ref{fig:peararchitecture} describes the initial implementation of a PEAR enabled device.
 The Saxo-L board from KNJN.com~\cite{KNJN} was used to do this work. The board contained both an FPGA and an ARM
-microcontroller. The FPGA was used to implement the PUF device and supporting circuitry. The ARM microcontroller
+micro controller. The FPGA was used to implement the PUF device and supporting circuitry. The ARM micro controller
 was used to do the general purpose computation, including all the different cryptographic processing. The two
 were connected to each other with a Serial Peripheral Interface. A keypad for entering PINs was connected using a
-breaboard and directly wiring it to I/O pins of the ARM. The entire system was then connected to the PC over
+breadboard and directly wiring it to I/O pins of the ARM. The entire system was then connected to the PC over
 a USB connection.
 
 \begin{figure}[!ht]
@@ -274,7 +274,7 @@ vulnerabilities are also present that were discussed in Chapter~\ref{chapter:phy
 
 One glaring shortcoming is the fact that the PUF and the ARM are connected over an SPI interface which is completely
 open on the Saxo-L board. As such, an adversary could easily put logic probes on the SPI bus and record the PUF
-challange/response values as they were transmitted to the ARM, since they are sent unencrypted. There are a few
+challenge/response values as they were transmitted to the ARM, since they are sent unencrypted. There are a few
 ways to remedy this. 
 
 One solution is to put sorts of tamper proofing in place, such as potting, power filtering, among others. 
@@ -282,9 +282,9 @@ This would be effective, but would most likely be expensive and not completely e
 be to encrypt the traffic being sent over the SPI bus. This would be fairly easy to do, but would impose some
 computational overhead on the entire device, which may or may not be acceptable. 
 
-The ideal solution to this problem is to incorporate the microcontroller onto the same chip as the PUF itself. This
+The ideal solution to this problem is to incorporate the micro controller onto the same chip as the PUF itself. This
 is possible since there are "soft core" versions of ARM available which can be instantiated on the FPGA. Additionally,
-Altera (who makes the FPGA on the Saxo-L) provides a soft core microcontroller for their FPGAs, as do many other
+Altera (who makes the FPGA on the Saxo-L) provides a soft core micro controller for their FPGAs, as do many other
 FPGA vendors. This is probably the best solution since it eliminates the need for two discrete chips, since both portions
 can be put in one FPGA. It is still possible to use the same SPI bus concept, but the SPI bus will be internal to the
 FPGA, so it will not be possible to put logic probes on it. If an attempt is made to strip portions of the FPGA to
@@ -321,6 +321,6 @@ need an appropriate policy language to capture the behavior. Next, we would need
 with a usable interface that abstracts the behavior adequately. Finally, we would need to consider the trade-offs in 
 usability and security that would result from applying the approaches described above.
 
-\section{Acknowledgement}
+\section{Acknowledgment}
 This work was partially funded by Sypris Electronics. A paper on PEAR was published in 2010 in the SPRINGL workshop
 of the SIGPATIAL ACM GIS conference.~\cite{PEAR}

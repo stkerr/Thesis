@@ -148,12 +148,12 @@ flexibility to adjust the security guarantees of the ROK according to desired im
 \footnote{The previous sections were taken from~\cite{PUFROK}}
 
 \section{PUF-based ROKs}
-Figure~\ref{fig:basicrok} shows a block level diagram of a basic PUF rok design. It consits of several different
+Figure~\ref{fig:basicrok} shows a block level diagram of a basic PUF rok design. It consists of several different
 components. The Processor Core (PC) is what interacts with the computer itself and the internal components of the
 PUF ROK. It also handles the various input and output tasks required.
  The PC is connected to the Cryptography Core (CC), which is responsible for performing the various
-cryptographic operations as well as communicating with the interal feedback loop.
-The internal feedback loop consists of a register wired to the PUF which is wired to an error correciton unit, which
+cryptographic operations as well as communicating with the internal feedback loop.
+The internal feedback loop consists of a register wired to the PUF which is wired to an error correction unit, which
 is then in turn wired back to the register and the CC.
 
 The CC is a stand-alone hardware component that provides cryptographic services to the PC.  The CC provides the 
@@ -191,7 +191,7 @@ Because of their nature, PUF ROKs would be considered a peripheral physical syst
 on an interaction between themselves and a computer to augment the functionality of the computer; 
 they do not necessarily interact with the world just by themselves.
 
-As a peripheral physical system, the PUF ROK must be resiliant against various types of environmental attacks, such
+As a peripheral physical system, the PUF ROK must be resilient against various types of environmental attacks, such
 as freezing and power analysis, as discussed in the next section, but they also must be very aware of the
 interactions they have with a host system and the dangers that can pose.
 
@@ -231,7 +231,7 @@ injection~\cite{rsapub,pertrsa,insecrsa,rsaltr,fault} and freezing~\cite{freezin
 attacks.  Fault injection attacks fail to threaten the confidentiality of the system,
 because these attacks are based on repeatedly inducing the fault with the same key.  However, PUF ROKs can
 only be used once.  At best, a fault injection would become a denial-of-service, as the key would not
-correctly enrypt or decrypt the message.  Freezing attacks are similarly unsuccessful, because they operate
+correctly encrypt or decrypt the message.  Freezing attacks are similarly unsuccessful, because they operate
 on the assumption that the key existed in addressable memory at some point.  However, that is not the case
 with PUF ROKs.  These keys are generated dynamically and are never explicitly stored outside the processor
 itself.  Thus, PUF ROKs offer robust defenses against these physical attacks.
@@ -278,7 +278,7 @@ Upon request for another encryption, the contents of the encryption register wil
 
 Upon a request for a decryption, if the requested key is still marked as valid in the error correcting cache,
 the seed register is copied into the decryption register. The PUF is then cycled
-and writes back to the decryption register enough times for the proper respone to be obtained. Note that the
+and writes back to the decryption register enough times for the proper response to be obtained. Note that the
 error correcting unit is correcting any potential errors after each cycling of the PUF. At the conclusion of this, the
 requested key is marked as used in the error correcting cache, meaning the PUF ROK will not use it again.
 
@@ -299,7 +299,7 @@ various chips.
 
 For the ease of development, we implemented only the PUF and the register on the FPGA and then implemented
 the error correction unit, cryptography core, processor core, and other supporting computation on the ARM chip. 
-When the PUF or register was needed, the ARM would issue a request over the SPI link to access the approprite component.
+When the PUF or register was needed, the ARM would issue a request over the SPI link to access the appropriate component.
 ~\ref{fig:rokimpl} shows details of the implementation graphically.
 
 \begin{figure}[!ht]
@@ -317,7 +317,7 @@ specifically optimized for small microprocessors, such as the LPC2132.
 
 \subsection{Limitations}
 There are some limitations to the implementation, since it is simply a prototype. The fact that the SPI bus is exposed
-is a huge problem. As it currently exists, an attacker could simply attach logic probes to the bus and interecept or
+is a huge problem. As it currently exists, an attacker could simply attach logic probes to the bus and intercept or
 modify any traffic between the FPGA and ARM chip. As such, he would be able to manipulate the values of the register
 as well as what the error correction unit receives. Clearly, this is not a good thing.
 
@@ -328,7 +328,7 @@ already. It would be possible to simply move the entire ARM processor onto the s
 Not only would this be more secure, but it would most likely be less expensive to manufacture a device with only
 one chip, rather than two.
 
-There are a variety of softcore microprocessors available, depending on the brand of FPGA selected, so there are
+There are a variety of soft core microprocessors available, depending on the brand of FPGA selected, so there are
 alternatives available to the ARM architecture.
 
 \subsection{Results}

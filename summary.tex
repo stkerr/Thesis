@@ -27,7 +27,7 @@ It is possible to utilize PUF devices in conjunction with certain cryptographic 
 of knowledge proofs, to implement interesting applications. Several different applications were presented, each of
 which demonstrated the use of PUF in a different context.
 
-The PUF ROK application leveraged a PUF device to create keys that, once used, are unrecovarable. This was done by
+The PUF ROK application leveraged a PUF device to create keys that, once used, are unrecoverable. This was done by
 giving the PUF an initial "seed" value and then creating a feedback loop with the PUF. When the PUF generated a response,
 it would overwrite the previously stored value. Since PUFs are one-way, there is thus no way to go backwards and
 recover the value that was previously used. These ROKs could then be used to create "self-destructing" documents
@@ -36,7 +36,7 @@ or for an authority to give a delegate a limited number of a higher privilege le
 The PEAR application used PUFs in a way to uniquely and securely identify devices, despite insecure communication
 channels. In addition to a PUF, a ZKPK protocol was used to provide this benefit. The PUF as well as an external keypad
 make up a PEAR device so that data can be entered securely. The initial goal was to allow users to be able to log in
-to websites securely, even if a hardware keylogger was attached to the keyboard. This is possible, but PEAR also
+to websites securely, even if a hardware key logger was attached to the keyboard. This is possible, but PEAR also
 allows this capability in the presence of software threats on the PC, since all traffic is encrypted.
 
 Finally, the smart grid projected utilized PUFs to provide strong guarantees of smart meters' identity. This is critical
