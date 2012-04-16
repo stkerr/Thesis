@@ -69,7 +69,7 @@ physical system than a standalone physical system.
 % Physical peripheral
 \subsection{Peripheral Physical Systems}
 Peripheral physical systems are the most complex type of physical system. These are normally called 'peripherals'. That
-is, they do not provide the main functionality of a system, but augment it's ability in some way. An example could be a 
+is, they do not provide the main functionality of a system, but augment its ability in some way. An example could be a 
 programmable sensor array. The sensor array could be connected to a network through which it receives commands. The array
 would then take sensor readings and communicate them back over the network. Not only does the array have to 
 interact with the physical environment to take readings, but there is also the component of dealing with the
@@ -82,7 +82,7 @@ involved with modeling the physical inputs themselves.
 
 % Describe the coming sections of the paper
 
-\section{Benign Considerations}
+\section{Failure Considerations}
 There are multiple ways that a physical system or device could fail. There are multiple benign ways that a system could
 fail. That is, the system is not attacked in any way, but some circumstances cause the system to fail or degrade in some
 way. There any many different ways to reduce these risks, as discussed below.
@@ -114,18 +114,18 @@ could cause the intended application to then function improperly. In certain ins
 life threatening, such as when temperature sensors in the Fukishima nuclear plant were incorrectly reporting the internal
 temperature of nuclear reactors.~\cite{fukushima}
 
-\section{Malicious Considerations}
+\section{Attacks}
 % Discuss different malicious problems with physical systems
 In addition to the problems that are inherently present in physical systems, it is necessary to consider problems that may
 occur from attackers maliciously using the system. They may be attempting to gain unauthorized access to the system,
 prevent legitimate users from using the system, disable the system entirely, or any number of other motivations.
 
-\subsection{Denial of Services}
+\subsection{Denial of Services Attacks}
 % DOS
 It is entirely possible that a malicious entity wants to simply disable and disrupt access to a physical system, preventing legitimate access
 to the system. If the physical system is unable to deliver valid services to its intended users, it is essentially worthless. 
 
-Denial of service attacks against physical systems are unique from the denial of service attacks against software. Some are very complex,
+Denial of service attacks against physical systems are unique with regards to the denial of service attacks against software. Some are very complex,
 while others are very simple. In the simplest case, an attacker can simply use a hammer to smash the system. More complex denial of
 service attacks may include inputting erroneous data, which may crash or slow the system. Attackers might also disrupt the environment
 that the physical system resides in, such that it is not useful. For instance, an attacker might put a heating element near a thermometer,
@@ -136,10 +136,11 @@ amount of tampering. This could include protective cases, placing the system beh
 previously, proper maintenance can also be helpful, to prevent an attacker from manipulating and disturbing the surrounding
 environment.
 
-\subsection{Man in the Middle}
+\subsection{Man in the Middle Attacks}
+
 % MITM
 There is a class of attack known as Man in the Middle (MITM) attacks. This is when an attacker sits between two parties and eavesdrops
-on their communications. He is then able to learn sensitive data that the two parties are transmitting.
+on their communications. The attacker is then able to learn sensitive data that the two parties are transmitting.
 
 This type of attack is especially relevant for physical systems. Physical systems frequently transmit data over cables, infrared, radio, or
 other wireless communication methods. If an attacker was able to splice a listening device into a cable or construct the appropriate type
@@ -171,13 +172,13 @@ back with the attacker. The attacker could then issue any sorts of commands that
 
 The issue of impersonation harkens to the need for \textit{authentication}. Chapter~\ref{chapter:cryptographyoverview} goes into more
 details on authentication protocols, but essentially, all communications between the system and the other party would have to be
-\textit{signed}. If the signatures did not match the expected values, the communication is rejected and dropped. In this way, an attacker
+\textit{signed}. If the signatures do not match the expected values, the communication is rejected and dropped. In this way, an attacker
 would have to be able to forge the signature of the valid party, which is considered computationally difficult if a proper signature scheme
 is used.
 
 % Replay attacks
 \subsection{Replay Attacks}
-There is a class of attacks that is related to MITM attacks called replay attacks. Replay attacks leverage the fact that certain protocols
+There is a class of attacks that is related to MITM attacks. Replay attacks leverage the fact that certain protocols
 might consistently send the same data every execution of the protocol. For instance, consider a system that requires the sender to 
 send an encrypted version of an ID number
 before every message to identify itself. If that ID is always the same, an attacker could simply capture the encrypted text and send
@@ -202,7 +203,7 @@ classical example of how physical systems can be manipulated through signal inje
 feature, but it is important to be aware of this danger when designing physical systems.
 
 Another example is disruption of GPS signals. This typically occurs because radio frequency signals are using the same wavelengths as
-GPS signals. GPS signals are usually weaker than RF signals, so the RF signals dominate and drown out the GPS signals. ~\cite{gpsdisruption} 
+GPS signals. GPS signals are usually weaker than RF signals, so the RF signals dominate and drown out the GPS signals. A report~\cite{gpsdisruption} 
 was delivered in 2001 and details some of these risks and defenses associated with GPS interference, both unintentional and intentional.
 
 To mitigate signal injection, it is important that system designers consider and plan for signal injection attacks. Defenses against this could
@@ -211,8 +212,8 @@ These are just some techniques to defend against the signal injection threat whi
 
 \subsection{Signal Emissions}
 Adversaries may also attempt to harvest a physical systems signal emissions in an attempt to gather information. This is because during
-normal operation, many devices give off electromagnetic and radio signals, at least to some extent, even if unintended. There has been
-examples where it is possible to recreate what is on a user's CRT or LCD computer monitor by recording the emissions of the monitor
+normal operation, many devices give off electromagnetic and radio signals, at least to some extent, even if unintended. There have been
+examples showing that it is possible to recreate what is on a user's CRT or LCD computer monitor by recording the emissions of the monitor
 from a far, using a process known as "Van Eck phreaking".~\cite{monitor}~\cite{lcds}
 
 NATO created a program called TEMPEST to investigate and report on the risks associated with signal emissions and defenses

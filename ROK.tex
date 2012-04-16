@@ -4,7 +4,10 @@
 \label{chapter:rok}
 
 \section{Overview}
-The term read-once keys (ROKs) describes the abstract notion that a cryptographic key can be read and used for encryption
+In this section, we present the definition, design, and implementation of read-once keys (ROKs). The presentation is this chapter
+follows after~\cite{PUFROK}.
+
+The term read-once key (ROK) describes the abstract notion that a cryptographic key can be read and used for encryption
 and decryption only once. While it seems intuitive that a trusted piece of software could be designed that deletes a key right after
 using it, such a scheme na\"{i}vely depends on the proper execution of the program. This approach could be easily
 circumvented by running the code within a debugging environment that halts execution of the code before the deletion occurs.
@@ -64,7 +67,6 @@ keys.  That is, given a seed $x_0$, the keys would be {\sf H}$(x_0)$, {\sf H}({\
 denotes a cryptographic hash function.  The insight of our approach is that a PUF, as a trusted piece of hardware,
 can provide a hardware-based implementation that is analogous to a hash function, but is more secure than
 software implementations of such algorithms.
-\footnote{The previous sections were taken from~\cite{PUFROK}}
 
 \section{Read Once Keys (ROK)}
 Our formal notion of a ROK is based on an adaptation of Turing machines.  Specifically, define the machine $T$ to be
@@ -145,7 +147,6 @@ a very low level of $\epsilon$, making the probability of subverting the ROK pro
 a brute-force attack on the cryptographic algorithm.  In applications that are less sensitive (\emph{i.e.,} the
 ROK property is desirable, but not critically important), $\epsilon$ could be larger.  In short, $\epsilon$ captures the
 flexibility to adjust the security guarantees of the ROK according to desired implementation characteristics.
-\footnote{The previous sections were taken from~\cite{PUFROK}}
 
 \section{PUF-based ROKs}
 Figure~\ref{fig:basicrok} shows a block level diagram of a basic PUF rok design. It consists of several different

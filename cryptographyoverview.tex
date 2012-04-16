@@ -56,7 +56,7 @@ $K_E$ is a \emph{public key}, while $K_D$ is a \emph{private key}. That is, $K_E
 which then allows anyone to encrypt messages. However, without $K_D$, these messages cannot be decrypted. As such, (typically) only one person
 will have $K_D$. 
 
-This is a useful system because it allows anyone to send a given person an encrypted message easily; Simply retrieve the public key,
+This is a useful system because it allows anyone to send a given person an encrypted message easily: Simply retrieve the public key,
 encrypt the message, and send it to the recipient. Unlike symmetric encryption, there is no need for a protocol to establishing a shared symmetric
 key. This greatly alleviates the problems that key management systems impose.
 
@@ -78,14 +78,15 @@ is so easily manipulated, it is somewhat difficult to ensure that the sender of 
 materials is who he claims to be.
 
 Several algorithms exist that can be used for digital signatures. In general terms, the signer
-will know some secret, or a private key (which might be contained in a \textit{certificate},
+will know some secret, or a private key,
  which he will use to sign messages. He will
 also publish some value related to the private key, known as the public key. When he wishes
 to send a signed message, the sender will use his private key to perform some operation
-and send it to the recipient. The recipient will then perform some operation on both
-the public key and what he received from the sender. If the signature is authentic, the
+on the message and send the message and result of the operation to the recipient. 
+The recipient will then perform some operation on what he 
+received from the sender, using the sender's public key. If the signature is authentic, the
 recipient will be able to determine this, or if not, this will also become more apparent.
-Figure~\ref{fig:signing} below illustrates this visually.
+Figure~\ref{fig:signing} illustrates this process.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/signing.png}
@@ -96,9 +97,9 @@ Figure~\ref{fig:signing} below illustrates this visually.
 
 % ZKPK
 \section{Zero Knowledge Proof of Knowledge}
-A party might need to prove that it knows some value from time to time. Sometimes it is acceptable
+A party might need to prove that it knows some value. Sometimes it is acceptable
 to simply reveal the value, but in other cases, this might not be acceptable. For instance, imagine
-if Alice, Bob, and Eve are in the same room. Victor  wants to make sure Peggy knows his phone number,
+if Peggy, Victor, and Eve are in the same room. Victor wants to make sure Peggy knows his phone number,
 but does not want Eve to learn her phone number. Peggy cannot simply repeat Victor's phone
 number, lest Eve overhear and write it down. In this case, Peggy will use what is called a
 \textit{zero knowledge proof of knowledge} or ZKPK.
@@ -136,8 +137,10 @@ that this commitment does not reveal Alice's choice. Bob would then tell Alice t
 flip. Alice would then tell Bob what she committed previously. Bob checks this value against Alice's
 commitment. If the value checks out, Bob accepts that Alice actually did call that value.
 
-Commitment schemes are fairly similar to zero knowledge proof of knowledge schemes; indeed, some
-zero knowledge schemes actually employ commitments! The method the author is most familiar with
+Commitment schemes are often used in conjunction with zero knowledge proof of knowledge schemes; 
+A prover proves to a verifier that he knows the value used to generate a commitment without having to reveal
+to the verifier such value. The verifier only accepts the committed value.
+The method the author is most familiar with
 is known as Pedersen commitments. Readers interested in more details of this scheme are referred
 to the original paper \cite{pedersen}.
 

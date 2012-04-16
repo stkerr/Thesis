@@ -7,8 +7,8 @@
 
 Systems that interact with the physical world are not only becoming more pervasive, but also more powerful
 from a computing perspective. It is helpful to classify these systems into groups of standalone, deployed, and
-peripheral physical systems. The distinction lies in how much communication is done with another system,
-such as one connected over the internet.
+peripheral physical systems. The distinction lies in how they communicate with other systems,
+such as the ones connected over the internet.
 
 There are many different security issues facing physical systems. Not only must they compensate for threats similar
 to those faced in software, such as impersonations, man-in-the-middles, and replay attacks, they must also
@@ -17,19 +17,19 @@ which can glean information from power consumption, signal injection attacks, wh
 bombarding the system with wireless signals, and simple tampering, such as breaking components or attaching logic
 probes.
 
-The technology of Physically Unclonable Function was presented, which allows strong guarantees of device authenticity
+The technology of Physically Unclonable Function (PUF) was presented, which allows strong guarantees of device authenticity
 to be made by leveraging the challenge-response properties of PUF. These devices are able to offer these guarantees
 since they cannot be duplicated using a manufacturing process, so the responses they give to given challenges are
-always unique from other PUFs. PUFs require a certain amount of support circuitry to deal with bit errors that occasionally
+always distinct from other PUFs. PUFs require a certain amount of support circuitry to deal with bit errors that occasionally
 occur, but this is acceptable and solvable using existing error correction techniques.
 
 It is possible to utilize PUF devices in conjunction with certain cryptographic protocols, such as zero knowledge proof
-of knowledge proofs, to implement interesting applications. Several different applications were presented, each of
+of knowledge (ZKPK) proofs, to implement interesting applications. Several different applications were presented, each of
 which demonstrated the use of PUF in a different context.
 
 The PUF ROK application leveraged a PUF device to create keys that, once used, are unrecoverable. This was done by
 giving the PUF an initial "seed" value and then creating a feedback loop with the PUF. When the PUF generated a response,
-it would overwrite the previously stored value. Since PUFs are one-way, there is thus no way to go backwards and
+it would overwrite the previously stored value. Since PUFs are one-way functions, there is no way to go backwards and
 recover the value that was previously used. These ROKs could then be used to create "self-destructing" documents
 or for an authority to give a delegate a limited number of a higher privilege level.
 
@@ -39,8 +39,8 @@ make up a PEAR device so that data can be entered securely. The initial goal was
 to websites securely, even if a hardware key logger was attached to the keyboard. This is possible, but PEAR also
 allows this capability in the presence of software threats on the PC, since all traffic is encrypted.
 
-Finally, the smart grid projected utilized PUFs to provide strong guarantees of smart meters' identity. This is critical
-because if the utility company was not sure meters it was communicating with, catastrophic attacks would be possible,
+Finally, the smart grid project utilized PUFs to provide strong guarantees of smart meters' identity. This is critical
+because if the utility company was not sure of meters it was communicating with, catastrophic attacks would be possible,
 such as overloading of power handling circuits. The PUF was again used in conjunction with ZKPK proofs to
 protect information in transit between the two parties. Additionally, since the utility company is required to maintain
 a large database, storing ZKPK commitments, rather than secrets directly, is a much more secure approach. Another

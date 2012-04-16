@@ -4,6 +4,9 @@
 \label{chapter:pear}
 
 \section{Overview}
+In this section, we present the definition, design, and implementation of the PEAR system. The presentation is this chapter
+follows after~\cite{PEAR}.
+
 One problem that is present when using computers is that users typically are not aware of the security of the system
 they are using. For instance, an attacker could have installed a key logger on a user's system to harvest every user name
 and password they have. Even with the best security systems on the machine in place, if the attacker is able to capture
@@ -40,16 +43,16 @@ also have an ID number associated with it. This allows both parties to identify 
 \section{Protocol Details}
 The PEAR system consists of two parts, an enrollment step, which is executed once initially and then an authentication step,
 which is executed every time the user desires to use the service.
-Table~\ref{tab:pearprotocol} presents a formalized description of the protocols, while Figure~\ref{fig:pearauthentication}
-and Figure~\ref{fig:pearenrollment} give graphical representations of the different stages occurring.
+Table~\ref{tab:pearprotocol} presents a formalized description of the protocols, while Figure~\ref{fig:pearenrollment}
+and Figure~\ref{fig:pearauthentication} give graphical representations of the different stages occurring.
 
 As seen in the diagrams below, the four players in the PEAR system are the user himself, the PEAR device, the user's computer,
 and the service provider. Note that the user's computer and the service provider are assumed to be connected over the Internet.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/enrollment.jpg}
-\label{fig:pearenrollment}
 \caption{The enrollment stage of PEAR}
+\label{fig:pearenrollment}
 \end{figure}
 \FloatBarrier
 
@@ -72,8 +75,8 @@ be able to make a fraudulent account.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/auth.jpg}
-\label{fig:pearauthentication}
 \caption{The authentication stage of PEAR}
+\label{fig:pearauthentication}
 \end{figure}
 \FloatBarrier
 
@@ -83,7 +86,7 @@ be able to make a fraudulent account.
 \noindent\makebox[\textwidth]{%
 \begin{tabular}{|l|}
 \hline
-{\sf Enroll}($U$) - Device $T$ (using input data from user $U$) computes a commitment and enrolls the results with $S$. \\
+{\sf Enroll}($U$) - Device $T$ (using input data from user $U$) computes a \\commitment and enrolls the results with $S$. \\
 \hline
 - $C$ requests enrollment from $S$ \\
 - $S$ sends the tuple $<$Label, ID$>$ and nonce $N$ to $T$ over a secure channel \\
@@ -93,7 +96,7 @@ be able to make a fraudulent account.
 - $T$ sends {\sf Commit}($P_{result}$), $<$Label, ID$>$, {\sf H}({\sf Commit}($P_{result}$),Label,ID,$N$) to $S$, via $C$ \\
 \hline
 \hline
-{\sf Authenticate}($U$) - Device $T$ (using input data from user $U$) authenticates itself as a registered user of $S$. \\
+{\sf Authenticate}($U$) - Device $T$ (using input data from user $U$) \\authenticates itself as a registered user of $S$. \\
 \hline
 - $C$ initiates the authentication request from $S$ \\
 - $S$ sends the tuple $<$Label, ID$>$ and {\sf Chal}($P_{result}$) to $T$ \\
@@ -119,8 +122,8 @@ user, which is not desirable.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/pearpics.jpg}
-\label{fig:pearunlinkability}
 \caption{The unlinkability property of PEAR}
+\label{fig:pearunlinkability}
 \end{figure}
 \FloatBarrier
 
@@ -143,8 +146,8 @@ authenticate to the authority, who will then authenticate to the service provide
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/pearorgnaizational.jpg}
-\label{fig:pearorganizational}
 \caption{The organizational anonymity aspect of PEAR}
+\label{fig:pearorganizational}
 \end{figure}
 \FloatBarrier
 
@@ -258,8 +261,8 @@ a USB connection.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/pearimpl.jpg}
-\label{fig:peararchitecture}
 \caption{Implementation of a PEAR device}
+\label{fig:peararchitecture}
 \end{figure}
 \FloatBarrier
 
@@ -320,7 +323,3 @@ Properly implementing transaction levels would require addressing a number of te
 need an appropriate policy language to capture the behavior. Next, we would need to explore how to present the user 
 with a usable interface that abstracts the behavior adequately. Finally, we would need to consider the trade-offs in 
 usability and security that would result from applying the approaches described above.
-
-\section{Acknowledgment}
-This work was partially funded by Sypris Electronics. A paper on PEAR was published in 2010 in the SPRINGL workshop
-of the SIGPATIAL ACM GIS conference.~\cite{PEAR}

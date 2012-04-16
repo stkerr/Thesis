@@ -4,7 +4,7 @@
 \label{chapter:pufoverview}
 It is desirable for a user to be sure that the device that he is using is authentic. However, due to the sophistication
 of forgeries or possible communication tampering, a user might be suspicious that the system is the system it claims
-to be. A device called a Physically Unclonable Function, or PUF, is a technology that remedies this problem.
+to be. A device called a Physically Unclonable Function, or PUF, is a technology that addresses this problem.
 
 A PUF device provides a unique challenge-response capability. That is, when two PUFs are provided the identical
 challenge, they will each produce unique responses. In this way, a PUF, and the system it contains, 
@@ -52,7 +52,7 @@ frequency of one RO may be different from another RO. In Figure ~\ref{fig:ro},
 this output signal corresponds to the signal marked $Q$.
 
 When used as part of a PUF, the unique behavior of an RO will be examined.
-Consider again the 3 stage RO as shown in Figure \ref{fig:ro}. All three
+Consider again the 3 stage RO shown in Figure \ref{fig:ro}. All three
 inverter gates are assumed to have the same propagation delay and the
 interconnecting wires are assumed to impose a negligible delay. However, in
 an actual instantiation of an RO, these assumptions are invalid. All three inverters
@@ -174,7 +174,7 @@ which discusses PUF aging in greater detail.
 
 % Discuss typical PUF error hamming distance
 
-\subsection{Error Correction}
+\subsection{Error Correction Schemes}
 As previously described, there are multiple different factors that can affect PUFs
 and their execution. If these are not mitigated, the functionality and utility of a PUF
 is greatly reduced. As such, an error correction scheme is typically needed when employing
@@ -272,10 +272,10 @@ The information stored on tags is typically personally identifiable information,
 location of origin, or related data. RFID tags are used in applications such as livestock inventory,
 shipping containers, or warehouse progress.
 
-A security concern with RFID tags is that they can be read passively and silently by unintended persons.
+A security concern with RFID tags is that they can be read passively and silently by unintended parties.
 For instance, someone might carry a reader in his pocket and record the data about people walking
 by him. This is a security risk and there has been some controversy over it.
 
-RFID tags are a contrast to PUF. RFID tags simply store data and reads it out when queried. In contrast,
-PUFs are a function that requires a specific input to get the desired response. In this way, more security
-is present.
+RFID tags are a contrast to PUF. An RFID tag simply stores data and reads it out when queried. In contrast,
+a PUF is a function that requires a specific input to get the desired response. In this way, a PUF is thus
+more secure.
