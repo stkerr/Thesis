@@ -29,6 +29,7 @@ Despite it being difficult to characterize physical systems in general terms, th
 relation below. Physical inputs are inputs from physical interfaces, such as buttons, control terminals, or radio signals. Other
 inputs might be information received over the network or from some sort of attached peripheral.
 
+\vspace*{-20pt}
 \begin{align*}
 Output = System_{Physical}(Physical Inputs, Other Inputs, Environment)
 \end{align*}
@@ -104,7 +105,7 @@ array was designed for operating indoors and it is placed outside and subjected 
 
 \subsection{Device Degradation}
 % Device degradation 
-One of the few "good" aspects about a complete device failure is that it is readily noticeable. If the system fails completely,
+One of the few ``good" aspects about a complete device failure is that it is readily noticeable. If the system fails completely,
 it is not possible to interact with it any more. In contrast, if a device \textit{degrades}, the degradation may not be noticed
 for a long time, while in the interim, the degraded system will be used under the assumption it is properly functioning.
 
@@ -185,7 +186,7 @@ before every message to identify itself. If that ID is always the same, an attac
 that; he does not need to actually know the plaintext version of the ID to impersonate the sending party.
 
 This type of attack can be remedied by ensuring that every execution of a protocol is unique. This is done through the use of
-time stamps or "nonce" values, which are randomly chosen, one time use values. Then, if an attacker tried to replay previous
+time stamps or ``nonce" values, which are randomly chosen, one time use values. Then, if an attacker tried to replay previous
 communications, the attack would fail since the time stamp or the nonce value would not match. So in the example above, the
 sender might encrypt his ID number concatenated with the current time. Then, an attacker would not be able to re-use any
 communications he captures in the future.
@@ -214,7 +215,7 @@ These are just some techniques to defend against the signal injection threat whi
 Adversaries may also attempt to harvest a physical systems signal emissions in an attempt to gather information. This is because during
 normal operation, many devices give off electromagnetic and radio signals, at least to some extent, even if unintended. There have been
 examples showing that it is possible to recreate what is on a user's CRT or LCD computer monitor by recording the emissions of the monitor
-from a far, using a process known as "Van Eck phreaking".~\cite{monitor}~\cite{lcds}
+from a far, using a process known as ``Van Eck phreaking".~\cite{monitor}~\cite{lcds}
 
 NATO created a program called TEMPEST to investigate and report on the risks associated with signal emissions and defenses
 against these threats.~\cite{tempest} Some of the easily implementable changes they suggest are to put electromagnetic shielding

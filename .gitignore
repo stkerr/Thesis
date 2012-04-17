@@ -1,10 +1,8 @@
 *.aux
 *.log
-thesis.pdf
 thesis.toc
 thesis.lot
 thesis.log
-*.pdf
 plot.eps
 thesis.lof
 applications.log
@@ -23,3 +21,5 @@ cryptographyoverview.log
 cryptographyoverview.log
 
 thesis.dvi
+
+.gitignore.swp

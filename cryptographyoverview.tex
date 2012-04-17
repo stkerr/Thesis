@@ -22,6 +22,7 @@ encrypted data is called \emph{decryption}.
 
 Encryption and decryption operations and relevant parameters are denoted using the following notation below.
 
+\vspace*{-20pt}
 \begin{align}
 C = E_{K_E}(M) \\
 M = D_{K_D}(C)
@@ -71,7 +72,7 @@ Interested users may refer to \cite{RSA} for more specific details on the RSA sc
 
 % Digital Signatures
 \section{Digital Signatures}
-An important ability when sending messages is for one party to "sign" the message. This
+An important ability when sending messages is for one party to ``sign" the message. This
 allows a recipient to be confident that the sender is actually who he claims to be, much
 like a physical signature on a physical document. Due to the fact that electronic media
 is so easily manipulated, it is somewhat difficult to ensure that the sender of electronic
@@ -89,11 +90,13 @@ recipient will be able to determine this, or if not, this will also become more 
 Figure~\ref{fig:signing} illustrates this process.
 
 \begin{figure}[!ht]
+\centering
 \includegraphics[width=400px]{images/signing.png}
 \caption{A graphical representation of the digital signature process \cite{signing}}
 \label{fig:signing}
+\vspace{-10pt}
 \end{figure}
-
+\FloatBarrier
 
 % ZKPK
 \section{Zero Knowledge Proof of Knowledge}

@@ -11,6 +11,7 @@ challenge, they will each produce unique responses. In this way, a PUF, and the 
 can be identified by the response value it generates to a specific challenge. A more formalized definition of
 this relationship is given below.
 
+\vspace*{-20pt}
 \begin{align*}
 PUF_1(C) = R_1\\
 PUF_2(C) = R_2\\
@@ -40,9 +41,11 @@ or oscillating, signal. Because it is a combination of circuits, the RO PUF can
 be instantiated on a piece of silicon, such as an FPGA or ASIC device.
 
 \begin{figure}[!ht] % The h specifies to place the figure 'here' as in, inline with the source code
+\centering
 \includegraphics[]{images/ro.png}
-\caption{A 3 gate Ring Oscillator}
+\caption{A 3-gate ring oscillator}
 \label{fig:ro}
+\vspace{-15pt}
 \end{figure}
 \FloatBarrier
 
@@ -69,9 +72,11 @@ identify the individual PUF that contains them. In Figure \ref{fig:ropuf}, a mor
 detailed diagram of a PUF based off of ring oscillators is presented.
 
 \begin{figure}[ht!]
+\centering
 \includegraphics[width=400px]{images/ropuf.png}
-\caption{A 1-bit Ring Oscillator PUF}
+\caption{A 1-bit ring oscillator PUF}
 \label{fig:ropuf}
+\vspace{-15pt}
 \end{figure}
 \FloatBarrier
 
@@ -110,9 +115,11 @@ settle in the same state, which forms the basis for the PUF response.
 Interested readers are referred to \cite{butterflypuf} for more information about the Butterfly PUF.
 
 \begin{figure}[ht!]
+\centering
 \includegraphics[scale=.70]{images/butterflypuf.png}
 \caption{A depiction of a Butterfly PUF}
 \label{fig:butterfly}
+\vspace{-15pt}
 \end{figure}
 \FloatBarrier
 
@@ -194,6 +201,7 @@ are self contained to illustrate this.
 \includegraphics[]{images/puf_ecc.png}
 \caption{A high level concept of PUF error correction}
 \label{fig:pufecc}
+\vspace{-15pt}
 \end{figure}
 
 The author has typically employed the use of Reed-Solomon (RS) error correction codes to do 

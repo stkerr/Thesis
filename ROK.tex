@@ -179,7 +179,8 @@ CC. The response will then be used to derive the decryption key for the message.
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/rok_soc.pdf}
 \label{fig:basicrok}
-\caption{Block Level View of a Basic PUF ROK Device}
+\caption{Block level view of a basic PUF ROK device}
+\vspace{-20pt}
 \end{figure}
 \FloatBarrier
 
@@ -244,7 +245,7 @@ information about the key itself.  Differential power analysis (DPA) observes th
 time by repeatedly executing the cryptographic algorithm \emph{with the targeted key}.  Ironically, DPA
 is considered harder to defend against than SPA.  And yet, PUF ROKs are immune to DPA (since repeated execution
 is not allowed) while vulnerable to SPA.  Even though SPA is a potential threat, known techniques can prevent
-these attacks~\cite{sidechan}.\footnote{The previous sections were taken from~\cite{PUFROK}}
+these attacks~\cite{sidechan}.
 
 \section{Out of Order Execution}
 One limitation of the basic PUF ROK design in~\ref{fig:basicrok} is that it does not allow out of order execution. That is,
@@ -259,7 +260,8 @@ ROK that allows this out of order execution.
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/rok_socreg.pdf}
 \label{fig:rok}
-\caption{Block Level View of a PUF ROK Allowing Out of Order Execution}
+\caption{Block level view of a PUF ROK allowing out of order execution}
+\vspace{-20pt}
 \end{figure}
 \FloatBarrier
 
@@ -301,12 +303,13 @@ various chips.
 For the ease of development, we implemented only the PUF and the register on the FPGA and then implemented
 the error correction unit, cryptography core, processor core, and other supporting computation on the ARM chip. 
 When the PUF or register was needed, the ARM would issue a request over the SPI link to access the appropriate component.
-~\ref{fig:rokimpl} shows details of the implementation graphically.
+Figure ~\ref{fig:rokimpl} shows details of the implementation graphically.
 
 \begin{figure}[!ht]
 \includegraphics[width=400px]{images/rok.pdf}
 \label{fig:rokimpl}
 \caption{Implementation of a ROK device}
+\vspace{-20pt}
 \end{figure}
 \FloatBarrier
 
@@ -353,9 +356,13 @@ the timer, it is slower than encrypting one kB of data in AES.  Observe, though,
 still only require 2.73 ms.  Consequently, the overhead of executing the PUF can remain small, especially
 as large amounts of data are encrypted or decrypted.
 
-\begin{figure}[ht]
+%\begin{figure}[ht]
+\begin{table}[!ht]
+\vspace{-10pt}
+\caption{NXP cryptographic measurements}
 \begin{center}
 \begin{tabular}{l | c c l | c}
+
 Symmetric 	& Time		& ~~~	& RSA			& Time\\
 Algorithm	& (ms/kB)	& ~~~	& Operation		& (s)\\
 \cline{1-2}\cline{4-5}
@@ -372,10 +379,11 @@ AES-ECB		& 1.14 		& ~	& 1024-bit decrypt	& 0.27 \\
 %\end{tabular}
 %\caption{RSA cryptographic measurements reported by NXP (in seconds)}
 \end{tabular}
-\caption{NXP cryptographic measurements}
 \label{fig:aes}
 \end{center}
-\end{figure}
+\vspace{-25pt}
+\end{table}
+%\end{figure}
 
 The comparison the RSA encryption and decryption is stark.  Observe that the 2.73 ms required to
 execute the PUF is 27.3\% of the time to perform a 1024-bit encryption in RSA.  As the key size
@@ -385,5 +393,5 @@ impact of polling the PUF during key generation is minimal.\footnote{Obviously, 
 work required to convert the PUF output into a usable key.  However, the precise timing of this
 work is implementation-dependent, and the algorithms typically employed are significantly more
 efficient than the modular exponentiation.  As such, we focus solely on the PUF measurement in
-our analysis.}\footnote{The previous sections were taken from~\cite{PUFROK}}
+our analysis.}
 

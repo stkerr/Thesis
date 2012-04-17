@@ -28,9 +28,9 @@ of knowledge (ZKPK) proofs, to implement interesting applications. Several diffe
 which demonstrated the use of PUF in a different context.
 
 The PUF ROK application leveraged a PUF device to create keys that, once used, are unrecoverable. This was done by
-giving the PUF an initial "seed" value and then creating a feedback loop with the PUF. When the PUF generated a response,
+giving the PUF an initial ``seed" value and then creating a feedback loop with the PUF. When the PUF generated a response,
 it would overwrite the previously stored value. Since PUFs are one-way functions, there is no way to go backwards and
-recover the value that was previously used. These ROKs could then be used to create "self-destructing" documents
+recover the value that was previously used. These ROKs could then be used to create ``self-destructing" documents
 or for an authority to give a delegate a limited number of a higher privilege level.
 
 The PEAR application used PUFs in a way to uniquely and securely identify devices, despite insecure communication
